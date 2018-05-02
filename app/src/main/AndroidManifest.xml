@@ -51,10 +51,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-
-=======
->>>>>>> 5c25cc2d16a969d9e0956e8bc02f85fc505e8023
         <activity android:name=".Menu1" />
         <activity
             android:name=".Navigation"

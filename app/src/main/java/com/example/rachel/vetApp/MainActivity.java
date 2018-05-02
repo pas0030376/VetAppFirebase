@@ -1,5 +1,6 @@
 package com.example.rachel.vetApp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
         if (auth.getCurrentUser() != null){
         }else{
             DoLogin();
+            Intent intent=new Intent(getApplicationContext(),Navigation.class);
+            startActivity(intent);
         }
 
     }
