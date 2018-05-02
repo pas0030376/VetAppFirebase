@@ -132,9 +132,9 @@ public class PerfilMascotaActivityFragment extends Fragment {
         }
 
         protected void onPostExecute(ArrayList<AddPet> pets) {
-            petList = (ListView) getView().findViewById(R.id.petList);
+            /*petList = (ListView) getView().findViewById(R.id.petList);
             PetsAdapter adapter = new PetsAdapter(getContext(), R.layout.petlist, pets);
-            petList.setAdapter(adapter);
+            petList.setAdapter(adapter);*/
 
         }
     }
