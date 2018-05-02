@@ -28,8 +28,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!-- My Location -->
-    <permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- Maps API needs OpenGL ES 2.0. -->
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -51,11 +51,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
 
-=======
->>>>>>> 5c25cc2d16a969d9e0956e8bc02f85fc505e8023
-        <activity android:name=".Menu1" />
+
         <activity
             android:name=".Navigation"
             android:label="@string/title_activity_navigation"

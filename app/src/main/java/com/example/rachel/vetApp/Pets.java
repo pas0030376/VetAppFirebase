@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by lenovo on 2/21/2018.
  */
 
-public class AddPet implements Serializable
+public class Pets implements Serializable
 {
     private Bitmap petlistImg;
     private String nameAddPet;
@@ -17,14 +17,14 @@ public class AddPet implements Serializable
     private String bdateAddPet;
     private String genderAddPet;
 
-    public AddPet(Bitmap petlistImg, String nameAddPet, String species)
+    public Pets(Bitmap petlistImg, String nameAddPet, String species)
     {
         this.petlistImg = petlistImg;
         this.nameAddPet = nameAddPet;
         this.species = species;
     }
 
-    public AddPet(Bitmap petlistImg, String nameAddPet, String species, String breed, String bdateAddPet, String genderAddPet) {
+    public Pets(Bitmap petlistImg, String nameAddPet, String species, String breed, String bdateAddPet, String genderAddPet) {
         this.petlistImg = petlistImg;
         this.nameAddPet = nameAddPet;
         this.species = species;
@@ -33,7 +33,7 @@ public class AddPet implements Serializable
         this.genderAddPet = genderAddPet;
     }
 
-    public AddPet(String nameAddPet, String species, String breed, String bdateAddPet, String genderAddPet) {
+    public Pets(String nameAddPet, String species, String breed, String bdateAddPet, String genderAddPet) {
         this.nameAddPet = nameAddPet;
         this.species = species;
         this.breed = breed;
