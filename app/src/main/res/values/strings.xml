@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">VetApp</string>
+    <string name="title_activity_navigation">Home</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="title_activity_perfil_mascota">Perfil Mascota</string>
+    <string name="title_activity_add_pet">Add Pet</string>
+    <string name="title_activity_maps">Map</string>
+
+</resources>
