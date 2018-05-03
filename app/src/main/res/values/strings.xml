@@ -14,5 +14,6 @@
     <string name="title_activity_perfil_mascota">Perfil Mascota</string>
     <string name="title_activity_add_pet">Add Pet</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_citas">CitasActivity</string>
 
 </resources>
