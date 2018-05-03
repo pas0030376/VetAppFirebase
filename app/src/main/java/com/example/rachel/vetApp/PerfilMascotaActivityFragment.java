@@ -60,5 +60,5 @@ public class PerfilMascotaActivityFragment extends Fragment {
         return view;
     }
 
-    
+
 }
