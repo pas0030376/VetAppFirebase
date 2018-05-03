@@ -9,6 +9,8 @@ public class Adopcion {
     private String nombre;
     private String ciudad;
     private String pais;
+    private String desc;
+    private String telefono;
 
     public Adopcion(int imagenIcono,Bitmap adopcionImagenBitmap,String tipoAnimal, String nombre, String ciudad, String pais) {
         this.tipoAnimal=tipoAnimal;
@@ -27,6 +29,31 @@ public class Adopcion {
     }
 
     public Adopcion() {}
+
+    public Adopcion(String tipoAnimal, String nombre, String ciudad, String pais, String desc, String telefono) {
+        this.tipoAnimal = tipoAnimal;
+        this.nombre = nombre;
+        this.ciudad = ciudad;
+        this.pais = pais;
+        this.desc = desc;
+        this.telefono = telefono;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 
     public void setTipoAnimal(String tipoAnimal) {
         this.tipoAnimal = tipoAnimal;

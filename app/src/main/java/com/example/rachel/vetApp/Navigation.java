@@ -60,18 +60,10 @@ public class Navigation extends AppCompatActivity
         View hView =  navigationViewHeader.getHeaderView(0);
         TextView nav_user = (TextView)hView.findViewById(R.id.tvName);
         ImageView profilePhoto=(ImageView)hView.findViewById(R.id.profilePhoto);
-//        String username=getIntent().getExtras().getString("usuario");
- //       nav_user.setText(username);
-        //String rutaImagen=getIntent().getExtras().getString("rutaImagen");
-//        String profileImagenString=getIntent().getExtras().getString("profileImagenString");
-
-
- //       parametros.putString("usuario",username);//pasamos al PerfilMascota el nombre del usuario
 
 
 
 
-       
 
 
     }

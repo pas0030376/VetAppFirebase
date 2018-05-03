@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +34,10 @@ public class AdopcionesListado extends AppCompatActivity {
 
     Button btnAñadirAdopcion;
     ListView lvAdopciones;
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,119 +51,14 @@ public class AdopcionesListado extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        TareaObtenerAdopciones tareaEntrar = new TareaObtenerAdopciones();
-        tareaEntrar.execute("http://vetapplove.xyz/mostrarAdopciones.php");
-    }
 
-    public class TareaObtenerAdopciones extends AsyncTask<String, Void, ArrayList<Adopcion>> {
-
-        protected ArrayList<Adopcion> doInBackground(String... params) {
-
-            Adopcion adopcion = null;
-            Bitmap adopcionImagenBitmap = null;
-            int idImagen = 0;
-            String tipoAnimal = "", nombreAnimal = "", ciudad = "", pais = "";
-            ArrayList<Adopcion> adopciones = new ArrayList<Adopcion>();
-
-            String respStr = ConexionHTTP(params[0]);
-            try {
-                JSONArray jsonArray = new JSONArray(respStr);
-
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = null;
-                    try {
-                        jsonObject = jsonArray.getJSONObject(i);
-                        idImagen = Integer.valueOf(jsonObject.getString("id"));
-                        tipoAnimal = jsonObject.getString("tipoAnimal");
-                        nombreAnimal = jsonObject.getString("nombreAnimal");
-                        ciudad = jsonObject.getString("ciudad");
-                        pais = jsonObject.getString("pais");
-
-                        //Descargamos la imagen asociada al animal en adopción
-                        URL urlImagen = new URL("http://vetapplove.xyz/imgAdopciones/" + idImagen + ".jpg");//abro coneexión para esta ruta de imagen
-                        HttpURLConnection connImagen = (HttpURLConnection) urlImagen.openConnection();
-                        connImagen.connect();
-                        adopcionImagenBitmap = BitmapFactory.decodeStream(connImagen.getInputStream());
-                        connImagen.disconnect();
-                        adopciones.add(new Adopcion(R.drawable.vetsmap, adopcionImagenBitmap, tipoAnimal, nombreAnimal, ciudad, pais));//instanciamos el objeto.
-
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    } catch (IOException e2) {
-                        e2.printStackTrace();
-                    }
-                }
-
-            } catch (JSONException e3) {
-                e3.printStackTrace();
-            }
-            return adopciones;
-        }
-
-        protected void onPostExecute(ArrayList<Adopcion> adopciones) {
-            lvAdopciones = (ListView) findViewById(R.id.lvAdopciones);
-            AdopcionesAdapter adapter = new AdopcionesAdapter(getApplicationContext(), R.layout.entrada_adopciones, adopciones);
-            lvAdopciones.setAdapter(adapter);
-        }
     }
 
 
-        private String ConexionHTTP(String urll) {
-            URL url = null;
-            HttpURLConnection con = null;
-            String response = "";
-            try {
-                url = new URL(urll);
-                //String data = "body=" + URLEncoder.encode(comment, "UTF-8");
-
-                con = (HttpURLConnection) url.openConnection();
-
-                // Tama�o previamente conocido
-                //con.setFixedLengthStreamingMode(data.getBytes().length);
-                // Establecer application/x-www-form-urlencoded debido a la simplicidad de los datos
-                con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                con.setReadTimeout(10000);
-                con.setConnectTimeout(15000);
-                con.setRequestMethod("POST");
-                con.setDoInput(true);
-                con.setDoOutput(true);
-
-               /* Uri.Builder builder = new Uri.Builder();
-
-                String query = builder.build().getEncodedQuery();
 
 
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(con.getOutputStream(), "UTF-8"));
-                //OutputStream out = new BufferedOutputStream(con.getOutputStream());
-                writer.write(query);
-                writer.flush();
-                writer.close();
 
-                //writer.write(getPostDataString(postDataParams));*/
 
-                int responseCode = con.getResponseCode();
-
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    String line;
-                    BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                    while ((line = br.readLine()) != null) {
-                        response += line;
-                    }
-                } else {
-                    response = "";
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (con != null)
-                    con.disconnect();
-            }
-
-            return response;
-        }
     }
 
 

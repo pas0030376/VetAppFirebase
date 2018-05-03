@@ -124,12 +124,12 @@ public class addPetActivityFragment extends Fragment {
 
                 if (items[item].equals("Take a photo")) {
                     userChoosenTask ="Take a photo";
-                   // if(result == 0)
-                       // cameraIntent();
+                    if(result == 0)
+                        cameraIntent();
 
                 } else if (items[item].equals("Gallery")) {
                     userChoosenTask ="Gallery";
-                  //  galleryIntent();
+                    galleryIntent();
 
                 } else if (items[item].equals("Cancel")) {
                     dialog.dismiss();
@@ -279,14 +279,14 @@ public class addPetActivityFragment extends Fragment {
         String breed = etBreed.getText().toString();
         String bdateAddPet = etBirthdate.getText().toString();
         String genderAddPet = etGender.getText().toString();
-        String imageAddPet="";
+        String imageAddPet=nameAddPet+".jpg";
         //String username = getActivity().getIntent().getExtras().getString("usuario");
 
         Pets pets = new Pets(nameAddPet, species, breed, bdateAddPet, genderAddPet);
         mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
         mDatabase = mRef.child("Pets").child(nameAddPet).setValue(pets);
 
-        CharSequence text = "Location added.";
+        CharSequence text = "Pet added.";
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(getContext(), text, duration);
         toast.show();
