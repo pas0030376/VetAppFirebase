@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,8 +34,6 @@ import java.util.ArrayList;
 public class PerfilMascotaActivityFragment extends Fragment {
 
     ListView petList;
-
-
 
 
     public PerfilMascotaActivityFragment() {
@@ -57,12 +58,8 @@ public class PerfilMascotaActivityFragment extends Fragment {
 
         return view;
     }
-
-
-
-
-
-
-
-
 }
+
+
+
+

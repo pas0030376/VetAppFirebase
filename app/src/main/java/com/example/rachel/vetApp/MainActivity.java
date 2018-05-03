@@ -1,5 +1,6 @@
 package com.example.rachel.vetApp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -23,8 +24,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null){
+            Intent intent=new Intent(getApplicationContext(),Navigation.class);
+            startActivity(intent);
+
         }else{
             DoLogin();
+
         }
 
     }

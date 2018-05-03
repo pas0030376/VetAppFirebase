@@ -60,40 +60,10 @@ public class Navigation extends AppCompatActivity
         View hView =  navigationViewHeader.getHeaderView(0);
         TextView nav_user = (TextView)hView.findViewById(R.id.tvName);
         ImageView profilePhoto=(ImageView)hView.findViewById(R.id.profilePhoto);
-        String username=getIntent().getExtras().getString("usuario");
-        nav_user.setText(username);
-        //String rutaImagen=getIntent().getExtras().getString("rutaImagen");
-        String profileImagenString=getIntent().getExtras().getString("profileImagenString");
-
-
-        parametros.putString("usuario",username);//pasamos al PerfilMascota el nombre del usuario
 
 
 
 
-        //Convertimos la imagen en formato String a Bitmap.
-        try {
-            byte [] encodeByte= Base64.decode(profileImagenString,Base64.DEFAULT);
-            Bitmap profileImagenBitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            profileImagenBitmap=getRoundedCornerBitmap(profileImagenBitmap);
-            profilePhoto.setImageBitmap(profileImagenBitmap);
-            
-            /*/*if (profileImagenBitmap.getWidth() > profileImagenBitmap.getHeight()){
-                profileImagenBitmap = Bitmap.createBitmap(profileImagenBitmap, 0, 0, profileImagenBitmap.getHeight(), profileImagenBitmap.getHeight());
-            }else if (profileImagenBitmap.getWidth() < profileImagenBitmap.getHeight()) {
-                profileImagenBitmap = Bitmap.createBitmap(profileImagenBitmap, 0, 0, profileImagenBitmap.getWidth(), profileImagenBitmap.getWidth());
-            }*/
-            //creamos el drawable redondeado
-            RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(getResources(), profileImagenBitmap);
-            //asignamos el CornerRadius
-            /*roundedDrawable.setCornerRadius(profileImagenBitmap.getWidth());
-
-            ImageView imageView = (ImageView) findViewById(R.id.profilePhoto);
-            imageView.setImageDrawable(roundedDrawable);*/
-            navigationView.getMenu().getItem(3).setChecked(true);
-        } catch(Exception e) {
-            e.getMessage();
-        }
 
 
     }

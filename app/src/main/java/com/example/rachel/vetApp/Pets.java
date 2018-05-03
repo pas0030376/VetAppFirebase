@@ -17,6 +17,8 @@ public class Pets implements Serializable
     private String bdateAddPet;
     private String genderAddPet;
 
+    public Pets(){}
+
     public Pets(Bitmap petlistImg, String nameAddPet, String species)
     {
         this.petlistImg = petlistImg;
