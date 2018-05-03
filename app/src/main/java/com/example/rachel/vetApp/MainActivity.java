@@ -24,10 +24,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null){
-        }else{
-            DoLogin();
             Intent intent=new Intent(getApplicationContext(),Navigation.class);
             startActivity(intent);
+
+        }else{
+            DoLogin();
+
         }
 
     }

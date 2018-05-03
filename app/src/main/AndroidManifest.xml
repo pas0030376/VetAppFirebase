@@ -30,7 +30,6 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-<<<<<<< HEAD
     <!-- External storage for caching. -->
     <permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
