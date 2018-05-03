@@ -36,7 +36,6 @@ public class PerfilMascotaActivityFragment extends Fragment {
     ListView petList;
 
 
-
     public PerfilMascotaActivityFragment() {
     }
 
@@ -59,6 +58,8 @@ public class PerfilMascotaActivityFragment extends Fragment {
 
         return view;
     }
-
-
 }
+
+
+
+
