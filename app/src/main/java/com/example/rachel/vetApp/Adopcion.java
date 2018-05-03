@@ -1,10 +1,7 @@
 package com.example.rachel.vetApp;
 
-import android.graphics.Bitmap;
 
 public class Adopcion {
-    private int imagenIcono;
-    private Bitmap adopcionImagenBitmap;
     private String tipoAnimal;
     private String nombre;
     private String ciudad;
@@ -12,14 +9,6 @@ public class Adopcion {
     private String desc;
     private String telefono;
 
-    public Adopcion(int imagenIcono,Bitmap adopcionImagenBitmap,String tipoAnimal, String nombre, String ciudad, String pais) {
-        this.tipoAnimal=tipoAnimal;
-        this.imagenIcono = imagenIcono;
-        this.adopcionImagenBitmap=adopcionImagenBitmap;
-        this.nombre = nombre;
-        this.ciudad = ciudad;
-        this.pais = pais;
-    }
     public Adopcion(String tipoAnimal, String nombre, String ciudad, String pais) {
         this.tipoAnimal=tipoAnimal;
 
@@ -63,9 +52,6 @@ public class Adopcion {
         return tipoAnimal;
     }
 
-    public int getIdImagen() {
-        return imagenIcono;
-    }
 
     public String getNombre() {
         return nombre;
@@ -77,15 +63,6 @@ public class Adopcion {
 
     public String getPais() {
         return pais;
-    }
-
-    public void setImagenIcono(int imagenIcono) {
-        this.imagenIcono = imagenIcono;
-    }
-
-    public int getImagenIcono() {
-
-        return imagenIcono;
     }
 
     public void setNombre(String nombre) {
@@ -100,11 +77,5 @@ public class Adopcion {
         this.pais = pais;
     }
 
-    public Bitmap getAdopcionImagenBitmap() {
-        return adopcionImagenBitmap;
-    }
 
-    public void setAdopcionImagenBitmap(Bitmap adopcionImagenBitmap) {
-        this.adopcionImagenBitmap = adopcionImagenBitmap;
-    }
 }
