@@ -87,7 +87,6 @@
         android:layout_marginBottom="4dp"
         android:layout_marginEnd="60dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
         android:background="#83215C"
         android:text="Publicar"
         android:textColor="@android:color/background_light"
@@ -116,14 +115,11 @@
         android:id="@+id/imageAddPet"
         android:layout_width="192dp"
         android:layout_height="112dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageAddPet"
+        android:layout_marginTop="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_menu_camera" />
 </android.support.constraint.ConstraintLayout>

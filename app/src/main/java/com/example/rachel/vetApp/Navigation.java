@@ -95,44 +95,6 @@ public class Navigation extends AppCompatActivity
             e.getMessage();
         }
 
-       /*
-         long yourmilliseconds = System.currentTimeMillis();
-       SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
-        Date resultdate = new Date(startTime);
-        System.out.println(sdf.format(resultdate));
-        long endTime=System.currentTimeMillis();
-
-
-        ContentValues contentEvent = new ContentValues();
-        contentEvent.put("calendar_id", 1);
-        contentEvent.put("title", "Wedding");
-        contentEvent.put("eventLocation", "New York");
-        contentEvent.put("dtstart","1335432431000");
-        contentEvent.put("dtend","1335436031000");
-
-
-        Uri eventsUri = Uri.parse("content://com.android.calendar/events");
-        getContentResolver().insert(eventsUri, contentEvent);
-         long startTime =0;
-        long endTime=0;
-
-        String startDate = String.valueOf(System.currentTimeMillis());
-        try {
-            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
-            startTime=date.getTime();
-        }
-        catch(Exception e){ }
-
-        Calendar cal = Calendar.getInstance();
-        Intent intent = new Intent(Intent.ACTION_EDIT);
-        intent.setType("vnd.android.cursor.item/event");
-        intent.putExtra("beginTime",cal.getTimeInMillis()+60*60*1000);
-        intent.putExtra("allDay", true);
-        intent.putExtra("rrule", "FREQ=YEARLY");
-        intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
-        intent.putExtra("title", "A Test Event from android app");
-        startActivity(intent);
-*/
 
     }
 
