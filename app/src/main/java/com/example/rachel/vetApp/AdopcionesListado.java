@@ -70,7 +70,7 @@ public class AdopcionesListado extends AppCompatActivity {
             }
         });
 
-        getAc
+        //getAc
 
         lvAdopciones = findViewById(R.id.lvAdopciones);
 
