@@ -15,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "683667408360-2qhire9bk9dfshbfq6n9pqes33p9i0sb.apps.googleusercontent.com",
+          "client_id": "683667408360-olngff5uuthidf1aahcomb7b4r9i2hhi.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.rachel.vetapplove",
@@ -29,7 +29,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCjsmNxtK44_S8_4tKJ4sA8rjSw_O_NRoo"
+          "current_key": "AIzaSyAPcnKywjp4OxtcWlnir3SDRJWUDT4ju3A"
         }
       ],
       "services": {

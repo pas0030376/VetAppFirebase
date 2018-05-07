@@ -30,6 +30,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -65,6 +67,8 @@ public class addPetActivityFragment extends Fragment {
     private String userChoosenTask;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
+    FirebaseAuth mAuth;
+
 
     StorageReference mReference;
     StorageReference storageRef;
@@ -90,6 +94,10 @@ public class addPetActivityFragment extends Fragment {
 
         storageRef = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");
 
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        String id = user.getEmail().toString();
+
         imgImageAddPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,12 +110,34 @@ public class addPetActivityFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-               writeNewPet();
+               writeNewPet(id);
 
             }
         });
 
         return view;
+    }
+
+    private void writeNewPet(String id) {
+
+        String nameAddPet =etName.getText().toString();
+        String species = etSpecies.getText().toString();
+        String breed = etBreed.getText().toString();
+        String bdateAddPet = etBirthdate.getText().toString();
+        String genderAddPet = etGender.getText().toString();
+        String imageAddPet=nameAddPet+".jpg";
+        //String username = getActivity().getIntent().getExtras().getString("usuario");
+
+        Pets pets = new Pets(nameAddPet, species, breed, bdateAddPet, genderAddPet);
+        mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
+        mDatabase = mRef.child(id).child(nameAddPet).setValue(pets);
+
+        CharSequence text = "Pet added.";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(getContext(), text, duration);
+        toast.show();
+
+
     }
 
     private void saveImageOfPet() {
@@ -272,27 +302,7 @@ public class addPetActivityFragment extends Fragment {
 
     }
 
-    private void writeNewPet() {
 
-        String nameAddPet =etName.getText().toString();
-        String species = etSpecies.getText().toString();
-        String breed = etBreed.getText().toString();
-        String bdateAddPet = etBirthdate.getText().toString();
-        String genderAddPet = etGender.getText().toString();
-        String imageAddPet=nameAddPet+".jpg";
-        //String username = getActivity().getIntent().getExtras().getString("usuario");
-
-        Pets pets = new Pets(nameAddPet, species, breed, bdateAddPet, genderAddPet);
-        mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
-        mDatabase = mRef.child("Pets").child(nameAddPet).setValue(pets);
-
-        CharSequence text = "Pet added.";
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(getContext(), text, duration);
-        toast.show();
-
-
-    }
 
 
 }

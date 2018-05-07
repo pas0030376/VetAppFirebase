@@ -1,6 +1,7 @@
 package com.example.rachel.vetApp;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,16 +26,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Arrays;
 
 public class Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Bundle parametros = new Bundle();
     FirebaseAuth mAuth;
+    Uri uri = Uri.parse("https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg");
 
 
     @Override
@@ -61,12 +68,19 @@ public class Navigation extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         nav_user.setText(user.getDisplayName());
-        Log.w("Google result",user.getPhotoUrl().toString());
+
         if (user.getPhotoUrl() != null){
+            Log.w("Google result",user.getPhotoUrl().toString());
         Glide.with(getApplicationContext())
                 .load(user.getPhotoUrl())
                 .into(profilePhoto);
         }
+        else
+            Glide.with(getApplicationContext())
+                    .load(uri)
+                    .into(profilePhoto);
+
+
     }
 
     @Override
@@ -123,14 +137,29 @@ public class Navigation extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_logOut) {
+            signOut();
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    //sign out user
+    private void signOut() {
+        mAuth.signOut();
+        CharSequence text = "Already signed out.";
+        int duration = Toast.LENGTH_SHORT;
+        Context context = getApplicationContext();
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+
+    }
+
+
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
         int width = 0;
         int height = 0;
