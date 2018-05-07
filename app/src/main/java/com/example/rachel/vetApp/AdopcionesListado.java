@@ -15,12 +15,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -70,7 +68,7 @@ public class AdopcionesListado extends AppCompatActivity {
             }
         });
 
-        getAc
+        AdopcionesListado.this.setTitle("Adopciones");
 
         lvAdopciones = findViewById(R.id.lvAdopciones);
 
