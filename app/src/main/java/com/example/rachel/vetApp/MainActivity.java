@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
     FirebaseAuth auth;
     GoogleSignInClient mGoogleSignInClient;
-    com.bluehomestudio.progressimage.ProgressPicture pawprogress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent=new Intent(getApplicationContext(),Navigation.class);
             startActivity(intent);
         }
-
-
     }
 
     private void DoLogin() {
@@ -45,4 +42,3 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-
