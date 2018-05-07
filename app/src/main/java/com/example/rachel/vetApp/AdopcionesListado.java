@@ -68,7 +68,11 @@ public class AdopcionesListado extends AppCompatActivity {
             }
         });
 
+<<<<<<< HEAD
         AdopcionesListado.this.setTitle("Adopciones");
+=======
+        //getAc
+>>>>>>> 5adb98e82e7f9456cb7f19fd8bc02a7a651c0ce2
 
         lvAdopciones = findViewById(R.id.lvAdopciones);
 

@@ -38,8 +38,6 @@ public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
         Log.d("GooglePlacesReadTask", "onPostExecute Exit");
     }
     private void ShowNearbyPlaces(List<HashMap<String, String>> nearbyPlacesList) {
-       // BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.iconpaw);
-
         for (int i = 0; i < nearbyPlacesList.size(); i++) {
             Log.d("onPostExecute","Entered into showing locations");
             MarkerOptions markerOptions = new MarkerOptions();
@@ -51,9 +49,9 @@ public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
             LatLng latLng = new LatLng(lat, lng);
             markerOptions.position(latLng);
             markerOptions.title(placeName + " : " + vicinity);
-            //markerOptions.icon(icon);
-            mMap.addMarker(markerOptions);
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            mMap.addMarker(markerOptions);
+
             //move map camera
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(11));

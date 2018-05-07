@@ -11,12 +11,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,14 +25,15 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Bundle parametros = new Bundle();
+    FirebaseAuth mAuth;
 
 
     @Override
@@ -61,11 +58,13 @@ public class Navigation extends AppCompatActivity
         TextView nav_user = (TextView)hView.findViewById(R.id.tvName);
         ImageView profilePhoto=(ImageView)hView.findViewById(R.id.profilePhoto);
 
-
-
-
-
-
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        nav_user.setText(user.getDisplayName());
+        Log.w("Google result",user.getPhotoUrl().toString());
+        Glide.with(getApplicationContext())
+                .load(user.getPhotoUrl())
+                .into(profilePhoto);
     }
 
     @Override
