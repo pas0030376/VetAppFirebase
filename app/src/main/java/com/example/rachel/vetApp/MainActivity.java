@@ -23,14 +23,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null){
-
-        }else{
+        if (auth.getCurrentUser() == null){
             DoLogin();
+        }else{
+            Intent intent=new Intent(getApplicationContext(),Navigation.class);
+            startActivity(intent);
         }
 
-        Intent intent=new Intent(getApplicationContext(),Navigation.class);
-        startActivity(intent);
+
     }
 
     private void DoLogin() {

@@ -65,10 +65,6 @@ public class Navigation extends AppCompatActivity
         Glide.with(getApplicationContext())
                 .load(user.getPhotoUrl())
                 .into(profilePhoto);
-
-
-
-
     }
 
     @Override
