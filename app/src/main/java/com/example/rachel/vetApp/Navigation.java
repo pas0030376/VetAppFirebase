@@ -62,9 +62,11 @@ public class Navigation extends AppCompatActivity
         FirebaseUser user = mAuth.getCurrentUser();
         nav_user.setText(user.getDisplayName());
         Log.w("Google result",user.getPhotoUrl().toString());
+        if (user.getPhotoUrl() != null){
         Glide.with(getApplicationContext())
                 .load(user.getPhotoUrl())
                 .into(profilePhoto);
+        }
     }
 
     @Override
@@ -107,8 +109,10 @@ public class Navigation extends AppCompatActivity
 
 
         if (id == R.id.nav_cita) {
+            Intent intent = new Intent(getApplicationContext(),CitasActivity.class);
+            startActivity(intent);
         }else if (id == R.id.nav_adopcion) {
-            Intent intent=new Intent(getApplicationContext(),AdopcionesListado.class);
+            Intent intent = new Intent(getApplicationContext(),AdopcionesListado.class);
             startActivity(intent);
         } else if (id == R.id.nav_vetsMap) {
             Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
