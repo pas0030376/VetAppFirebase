@@ -67,7 +67,9 @@ public class addPetActivityFragment extends Fragment {
     private String userChoosenTask;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
-    FirebaseAuth mAuth;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser user = mAuth.getCurrentUser();
+    String id = user.getUid().toString();
 
 
     StorageReference mReference;
@@ -75,8 +77,11 @@ public class addPetActivityFragment extends Fragment {
 
     private View view;
 
+
     public addPetActivityFragment() {
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,10 +98,6 @@ public class addPetActivityFragment extends Fragment {
 
 
         storageRef = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");
-
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
-        String id = user.getEmail().toString();
 
         imgImageAddPet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +127,6 @@ public class addPetActivityFragment extends Fragment {
         String bdateAddPet = etBirthdate.getText().toString();
         String genderAddPet = etGender.getText().toString();
         String imageAddPet=nameAddPet+".jpg";
-        //String username = getActivity().getIntent().getExtras().getString("usuario");
 
         Pets pets = new Pets(nameAddPet, species, breed, bdateAddPet, genderAddPet);
         mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
@@ -210,6 +210,8 @@ public class addPetActivityFragment extends Fragment {
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
         }
+
+
     }
 
     private void onCaptureImageResult(Intent data) {
@@ -225,7 +227,7 @@ public class addPetActivityFragment extends Fragment {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] item = baos.toByteArray();
 
-        mReference = storageRef.child(nom + ".jpg");
+        mReference = storageRef.child(id+"_"+nom + ".jpg");
         UploadTask uploadTask = mReference.putBytes(item);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
@@ -266,7 +268,8 @@ public class addPetActivityFragment extends Fragment {
 
                 String nom = etName.getText().toString();
 
-                mReference = storageRef.child(nom + ".jpg");
+
+                mReference = storageRef.child(id+"_"+nom + ".jpg");
                 UploadTask uploadTask = mReference.putBytes(item);
                 final Bitmap finalBm = bm;
                 uploadTask.addOnFailureListener(new OnFailureListener() {

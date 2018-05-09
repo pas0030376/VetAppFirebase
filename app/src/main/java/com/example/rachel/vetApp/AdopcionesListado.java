@@ -41,7 +41,6 @@ public class AdopcionesListado extends AppCompatActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef;
 
-
     @Override
     public void onStart() {
         super.onStart();
