@@ -39,8 +39,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 
-=======
->>>>>>> be11b02cdd0f9a85ca82ceaafe4cd14a2e8ea3c1
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -91,7 +90,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD6APz0qwHEg_1cvvxopsHSOurZ_bbzcdI" />
+            android:value="AIzaSyAMoVT8Reoa4F_2BQuTUkKvOfyidOm_5Ew" />
 
         <activity
             android:name=".MapsActivity"

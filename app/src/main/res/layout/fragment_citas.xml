@@ -7,4 +7,15 @@
     tools:context="com.example.rachel.vetApp.CitasActivityFragment"
     tools:showIn="@layout/activity_citas">
 
+    <com.gjiazhe.multichoicescirclebutton.MultiChoicesCircleButton
+        android:id="@+id/multiChoicesCircleButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:mccb_collapseRadius="40dp"
+        app:mccb_expandRadius="120dp"
+        app:mccb_icon="@drawable/iconvet"
+        app:mccb_text="Pide o cancela tu cita"
+        app:mccb_buttonColor="@color/colorAccent"
+        app:layout_behavior="@string/multi_choices_circle_button_behavior"/>
+
 </android.support.constraint.ConstraintLayout>

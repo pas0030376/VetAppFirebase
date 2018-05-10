@@ -1,6 +1,7 @@
 package com.example.rachel.vetApp;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -13,10 +14,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -28,15 +26,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import com.bumptech.glide.Glide;
+import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Arrays;
 
 public class Navigation extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Bundle parametros = new Bundle();
+    FirebaseAuth mAuth;
+    Uri uri = Uri.parse("https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg");
 
 
     @Override
@@ -61,9 +65,20 @@ public class Navigation extends AppCompatActivity
         TextView nav_user = (TextView)hView.findViewById(R.id.tvName);
         ImageView profilePhoto=(ImageView)hView.findViewById(R.id.profilePhoto);
 
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        nav_user.setText(user.getDisplayName());
 
-
-
+        if (user.getPhotoUrl() != null){
+            Log.w("Google result",user.getPhotoUrl().toString());
+        Glide.with(getApplicationContext())
+                .load(user.getPhotoUrl())
+                .into(profilePhoto);
+        }
+        else
+            Glide.with(getApplicationContext())
+                    .load(uri)
+                    .into(profilePhoto);
 
 
     }
@@ -108,8 +123,10 @@ public class Navigation extends AppCompatActivity
 
 
         if (id == R.id.nav_cita) {
+            Intent intent = new Intent(getApplicationContext(),CitasActivity.class);
+            startActivity(intent);
         }else if (id == R.id.nav_adopcion) {
-            Intent intent=new Intent(getApplicationContext(),AdopcionesListado.class);
+            Intent intent = new Intent(getApplicationContext(),AdopcionesListado.class);
             startActivity(intent);
         } else if (id == R.id.nav_vetsMap) {
             Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
@@ -120,14 +137,29 @@ public class Navigation extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_logOut) {
+            signOut();
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    //sign out user
+    private void signOut() {
+        mAuth.signOut();
+        CharSequence text = "Already signed out.";
+        int duration = Toast.LENGTH_SHORT;
+        Context context = getApplicationContext();
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+
+    }
+
+
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
         int width = 0;
         int height = 0;
