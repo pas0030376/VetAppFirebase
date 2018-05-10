@@ -38,8 +38,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -110,6 +108,24 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.rachel.vetApp.Navigation" />
+        </activity>
+        <activity
+            android:name=".DetailPetActivity"
+            android:label="@string/title_activity_detail_pet"
+            android:parentActivityName=".Navigation"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.rachel.vetApp.Navigation" />
+        </activity>
+        <activity
+            android:name=".addVacunasActivity"
+            android:label="@string/title_activity_add_vacunas"
+            android:parentActivityName=".DetailPetActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.rachel.vetApp.DetailPetActivity" />
         </activity>
     </application>
 
