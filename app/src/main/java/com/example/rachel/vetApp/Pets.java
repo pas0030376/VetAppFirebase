@@ -16,8 +16,27 @@ public class Pets implements Serializable
     private String breed;
     private String bdateAddPet;
     private String genderAddPet;
+    private Double peso;
+    private String edad;
+    private String esterilizado;
+    private String alergias;
+    private String enfermedades;
 
     public Pets(){}
+
+
+    public Pets(String nameAddPet, String species, String breed, String bdateAddPet, String genderAddPet, Double peso, String edad, String esterilizado, String alergias, String enfermedades) {
+        this.nameAddPet = nameAddPet;
+        this.species = species;
+        this.breed = breed;
+        this.bdateAddPet = bdateAddPet;
+        this.genderAddPet = genderAddPet;
+        this.peso = peso;
+        this.edad = edad;
+        this.esterilizado = esterilizado;
+        this.alergias = alergias;
+        this.enfermedades = enfermedades;
+    }
 
     public Pets(Bitmap petlistImg, String nameAddPet, String species)
     {
@@ -41,6 +60,46 @@ public class Pets implements Serializable
         this.breed = breed;
         this.bdateAddPet = bdateAddPet;
         this.genderAddPet = genderAddPet;
+    }
+
+    public Double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(Double peso) {
+        this.peso = peso;
+    }
+
+    public String getEdad() {
+        return edad;
+    }
+
+    public void setEdad(String edad) {
+        this.edad = edad;
+    }
+
+    public String getEsterilizado() {
+        return esterilizado;
+    }
+
+    public void setEsterilizado(String esterilizado) {
+        this.esterilizado = esterilizado;
+    }
+
+    public String getAlergias() {
+        return alergias;
+    }
+
+    public void setAlergias(String alergias) {
+        this.alergias = alergias;
+    }
+
+    public String getEnfermedades() {
+        return enfermedades;
+    }
+
+    public void setEnfermedades(String enfermedades) {
+        this.enfermedades = enfermedades;
     }
 
     public Bitmap getPetlistImg() {
