@@ -8,9 +8,15 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.asksira.dropdownview.DropDownView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -25,6 +31,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -47,15 +56,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
-//Check if Google Play Services Available or not
         if (!CheckGooglePlayServices()) {
             finish();
         } else {
         }
-// Obtain the SupportMapFragment and get notified when the map is ready to be used
-       SupportMapFragment mapFragment = (SupportMapFragment)
-               getSupportFragmentManager().findFragmentById(R.id.map);mapFragment.getMapAsync(this);
+
+       SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);mapFragment.getMapAsync(this);
+
+        final Spinner metros = findViewById(R.id.metros_spinner);
+        ArrayAdapter<CharSequence> adapterCurso = ArrayAdapter.createFromResource(this.getApplicationContext(),R.array.metros_map, android.R.layout.simple_spinner_item);
+        adapterCurso.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        metros.setAdapter(adapterCurso);
+
+       metros.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                PROXIMITY_RADIUS = Integer.parseInt(metros.getSelectedItem().toString());
+                Log.w("Radio", String.valueOf(PROXIMITY_RADIUS));
+            }
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
+            }
+        });
+
+
+
     }
+
     private boolean CheckGooglePlayServices() {
         GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
         int result = googleAPI.isGooglePlayServicesAvailable(this);

@@ -14,8 +14,7 @@
         app:mccb_collapseRadius="40dp"
         app:mccb_expandRadius="120dp"
         app:mccb_icon="@drawable/iconvet"
-        app:mccb_text="Pide o cancela tu cita"
+        app:mccb_text="Pide o Cancela tu cita"
         app:mccb_buttonColor="@color/colorAccent"
         app:layout_behavior="@string/multi_choices_circle_button_behavior"/>
-
 </android.support.constraint.ConstraintLayout>

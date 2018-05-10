@@ -143,7 +143,9 @@ public class Navigation extends AppCompatActivity
 
         } else if (id == R.id.nav_logOut) {
             signOut();
-
+            /*Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);*/
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
