@@ -14,6 +14,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -30,6 +31,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -40,7 +43,8 @@ public class Navigation extends AppCompatActivity
 
     Bundle parametros = new Bundle();
     FirebaseAuth mAuth;
-    Uri uri = Uri.parse("https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg");
+    Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/vetapp-98f0d.appspot.com/o/noimage.png?alt=media&token=c1a1e275-1e37-4374-8cf2-be1e0b0dd2ad");
+
 
 
     @Override
@@ -151,12 +155,26 @@ public class Navigation extends AppCompatActivity
 
     //sign out user
     private void signOut() {
+
         mAuth.signOut();
-        CharSequence text = "Already signed out.";
-        int duration = Toast.LENGTH_SHORT;
-        Context context = getApplicationContext();
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+        AuthUI.getInstance()
+                .signOut(Navigation.this)
+                .addOnCompleteListener(new OnCompleteListener<Void>(){
+
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+
+                        FirebaseAuth.getInstance().signOut();
+                        CharSequence text = "Signed out.";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+                        toast.show();
+                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(i);
+                    }
+                });
+
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.rachel.vetApp;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import com.gjiazhe.multichoicescirclebutton.MultiChoicesCircleButton;
 import java.util.ArrayList;
 import java.util.List;
 public class CitasActivityFragment extends Fragment {
+
 
     public CitasActivityFragment() {
     }
