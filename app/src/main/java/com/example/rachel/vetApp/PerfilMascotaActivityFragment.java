@@ -94,10 +94,6 @@ public class PerfilMascotaActivityFragment extends Fragment {
 
         petList = view.findViewById(R.id.petList);
 
-
-
-
-
             query = FirebaseDatabase.getInstance()
                     .getReference()
                     .child(id);
@@ -130,8 +126,6 @@ public class PerfilMascotaActivityFragment extends Fragment {
 
                         }
                     });
-
-
                 }
             };
 
