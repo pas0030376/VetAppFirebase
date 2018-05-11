@@ -227,7 +227,7 @@
                 android:id="@+id/savePet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#53B4B8"
+                android:background="@drawable/publicarbutton"
                 android:text="Publicar" />
 
         </LinearLayout>

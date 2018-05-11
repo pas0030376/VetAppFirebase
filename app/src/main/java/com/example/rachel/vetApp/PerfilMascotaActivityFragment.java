@@ -1,9 +1,7 @@
 package com.example.rachel.vetApp;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -19,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -29,18 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -54,7 +42,7 @@ public class PerfilMascotaActivityFragment extends Fragment {
     FirebaseListOptions<Pets> options;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference storageRef = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");
+    StorageReference storageRef = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");;
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user = mAuth.getCurrentUser();
@@ -126,6 +114,15 @@ public class PerfilMascotaActivityFragment extends Fragment {
 
                         }
                     });
+
+/*                   String url  = String.valueOf(storageRef.child(id+"_"+model.getNameAddPet()+".jpg"));
+                   storageRef  = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/"+id+"_"+model.getNameAddPet()+".jpg");
+                 //   Log.w("STORAGE", url);
+                    /*Glide.with(getContext())
+                            .load(storageRef.child(url))
+                            .into(petImg);*/
+
+                    //Glide.with(getContext()).load(storageRef).into(petImg);
                 }
             };
 
