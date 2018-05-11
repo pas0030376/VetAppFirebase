@@ -5,17 +5,12 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
-
-import java.util.Calendar;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -47,11 +42,13 @@ public class addVacunasActivityFragment extends Fragment {
                 DialogFragment newFragment = new DatePickerFragment();
                 newFragment.show(getFragmentManager(), "DatePicker");
 
+                Log.w("Dialog", String.valueOf(newFragment.getDialog()));
+                Dialog datetext = newFragment.getDialog();
+                date.setText((CharSequence) datetext);
+
             }
         });
 
         return view;
     }
-
-
 }
