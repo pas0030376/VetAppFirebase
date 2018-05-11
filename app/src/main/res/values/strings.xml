@@ -38,4 +38,13 @@
     <string name="title_activity_add_vacunas">addVacunasActivity</string>
     <string name="title_activity_add_surgery">addSurgeryActivity</string>
 
+    <string-array name="Tipos_cirugias">
+        <item>Ovariohisterectomia</item>
+        <item>Ovarietomía</item>
+        <item>Histerectomía</item>
+        <item>Ligad. de trompas</item>
+        <item>Orquictomía</item>
+        <item>Vasectomia</item>
+    </string-array>
+
 </resources>
