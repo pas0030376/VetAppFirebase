@@ -68,7 +68,24 @@ public class DetailPetActivityFragment extends Fragment {
         MultiChoicesCircleButton multiChoicesCircleButton = view.findViewById(R.id.multiChoicesPetDetails);
         multiChoicesCircleButton.setButtonItems(buttonItems);
 
-     
+        multiChoicesCircleButton.setOnSelectedItemListener(new MultiChoicesCircleButton.OnSelectedItemListener() {
+            @Override
+            public void onSelected(MultiChoicesCircleButton.Item item, int index) {
+                switch (item.getText()) {
+                    case "Add vacuna":
+                        Intent i = new Intent(getContext(), addVacunasActivity.class);
+                        startActivity(i);
+                        break;
+                    case "Add surgery":
+                        startActivity( new Intent(getContext(), addSurgeryActivity.class));
+                        break;
+
+                    default:
+                        break;
+                }
+
+            }
+        });
 
         name = view.findViewById(R.id.detailNamePet);
         especie = view.findViewById(R.id.detailEspecie);
