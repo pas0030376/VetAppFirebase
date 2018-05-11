@@ -2,6 +2,9 @@
     <string name="app_name">VetApp</string>
     <string name="title_activity_navigation">Home</string>
 
+    <item name="visible" type="id"/>
+    <item name="masked" type="id"/>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -22,6 +25,14 @@
         <item>1500</item>
         <item>2000</item>
         <item>3000</item>
+    </string-array>
+
+    <string-array name="Tipos_Vacuna">
+        <item>Hepatitis</item>
+        <item>Brom</item>
+        <item>Leptospirosi</item>
+        <item>Parvovirosi</item>
+        <item>Rabia</item>
     </string-array>
     <string name="title_activity_detail_pet">DetailPetActivity</string>
     <string name="title_activity_add_vacunas">addVacunasActivity</string>

@@ -140,7 +140,8 @@ public class Navigation extends AppCompatActivity
             intent.putExtras(parametros);
             startActivity(intent);
         } else if (id == R.id.nav_share) {
-
+            Intent intent = new Intent(getApplicationContext(), addVacunasActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_logOut) {
             signOut();
             /*Intent i = new Intent(getApplicationContext(), MainActivity.class);
