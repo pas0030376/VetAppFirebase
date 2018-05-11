@@ -17,6 +17,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.util.Base64;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -41,6 +42,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -65,6 +67,7 @@ public class addPetActivityFragment extends Fragment {
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private static final int  MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE= 2;
     private String userChoosenTask;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -185,7 +188,13 @@ public class addPetActivityFragment extends Fragment {
         }
     }
 
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
 
+    }
     private void cameraIntent()
     {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -209,6 +218,11 @@ public class addPetActivityFragment extends Fragment {
                 onSelectFromGalleryResult(data);
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
+            else if (requestCode == REQUEST_IMAGE_CAPTURE){
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                imgImageAddPet.setImageBitmap(imageBitmap);
+            }
         }
 
 
