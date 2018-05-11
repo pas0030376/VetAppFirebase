@@ -4,7 +4,8 @@
     package="com.example.rachel.vetApp">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
     <permission
         android:name="com.ecs.google.maps.v2.actionbarsherlock.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
