@@ -132,7 +132,7 @@ public class addPetActivityFragment extends Fragment {
         String bdateAddPet = etBirthdate.getText().toString();
         String genderAddPet = etGender.getText().toString();
         String edad = etEdad.getText().toString();
-        Double peso = Double.parseDouble(String.valueOf(etPeso.getText()));
+        String peso = etPeso.getText().toString();
         String alergias = etAlergias.getText().toString();
         String enfermedades = etEnfermedades.getText().toString();
         String esterilizado = etEnfermedades.getText().toString();

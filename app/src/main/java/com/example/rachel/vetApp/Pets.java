@@ -16,7 +16,7 @@ public class Pets implements Serializable
     private String breed;
     private String bdateAddPet;
     private String genderAddPet;
-    private Double peso;
+    private String peso;
     private String edad;
     private String esterilizado;
     private String alergias;
@@ -25,7 +25,7 @@ public class Pets implements Serializable
     public Pets(){}
 
 
-    public Pets(String nameAddPet, String species, String breed, String bdateAddPet, String genderAddPet, Double peso, String edad, String esterilizado, String alergias, String enfermedades) {
+    public Pets(String nameAddPet, String species, String breed, String bdateAddPet, String genderAddPet, String peso, String edad, String esterilizado, String alergias, String enfermedades) {
         this.nameAddPet = nameAddPet;
         this.species = species;
         this.breed = breed;
@@ -62,11 +62,11 @@ public class Pets implements Serializable
         this.genderAddPet = genderAddPet;
     }
 
-    public Double getPeso() {
+    public String getPeso() {
         return peso;
     }
 
-    public void setPeso(Double peso) {
+    public void setPeso(String peso) {
         this.peso = peso;
     }
 
