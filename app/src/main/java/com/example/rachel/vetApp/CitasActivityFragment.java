@@ -30,6 +30,9 @@ public class CitasActivityFragment extends Fragment {
 
         MultiChoicesCircleButton multiChoicesCircleButton = view.findViewById(R.id.multiChoicesCircleButton);
         multiChoicesCircleButton.setButtonItems(buttonItems);
+
+
+
         return view;
     }
 }

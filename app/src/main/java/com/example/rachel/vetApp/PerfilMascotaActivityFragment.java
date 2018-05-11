@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -114,19 +115,19 @@ public class PerfilMascotaActivityFragment extends Fragment {
 
                         }
                     });
-
-/*                   String url  = String.valueOf(storageRef.child(id+"_"+model.getNameAddPet()+".jpg"));
-                   storageRef  = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/"+id+"_"+model.getNameAddPet()+".jpg");
-                 //   Log.w("STORAGE", url);
-                    /*Glide.with(getContext())
-                            .load(storageRef.child(url))
-                            .into(petImg);*/
-
-                    //Glide.with(getContext()).load(storageRef).into(petImg);
                 }
             };
 
         petList.setAdapter(adapter);
+        petList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(getContext(), DetailPetActivity.class);
+                Pets pets = (Pets) parent.getItemAtPosition(position);
+                i.putExtra("pets", pets);
+                startActivity(i);
+            }
+        });
 
         return view;
     }

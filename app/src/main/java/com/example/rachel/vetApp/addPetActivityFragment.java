@@ -91,6 +91,8 @@ public class addPetActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         view= inflater.inflate(R.layout.fragment_add_pet, container, false);
 
+        getActivity().setTitle("Añadir una mascota");
+
         etName = view.findViewById(R.id.nameAddPet);
         etSpecies = view.findViewById(R.id.species);
         etBreed = view.findViewById(R.id.breed);
