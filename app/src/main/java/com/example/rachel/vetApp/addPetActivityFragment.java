@@ -57,7 +57,7 @@ import static com.firebase.ui.auth.AuthUI.getApplicationContext;
  */
 public class addPetActivityFragment extends Fragment {
 
-    EditText etName, etSpecies, etBreed, etGender, etBirthdate;
+    EditText etName, etSpecies, etBreed, etGender, etBirthdate, etPeso, etEdad, etEsterilizado, etAlergias, etEnfermedades;
     Button btnSavePet;
     ImageView imgImageAddPet;
 
@@ -96,6 +96,11 @@ public class addPetActivityFragment extends Fragment {
         etBreed = view.findViewById(R.id.breed);
         etGender = view.findViewById(R.id.genderAddPet);
         etBirthdate = view.findViewById(R.id.bdateAddPet);
+        etEdad = view.findViewById(R.id.edad);
+        etEsterilizado = view.findViewById(R.id.esterilizado);
+        etPeso = view.findViewById(R.id.peso);
+        etAlergias = view.findViewById(R.id.alergias);
+        etEnfermedades = view.findViewById(R.id.enfermedades);
         btnSavePet = view.findViewById(R.id.savePet);
         imgImageAddPet = view.findViewById(R.id.imageAddPet);
 
@@ -129,9 +134,14 @@ public class addPetActivityFragment extends Fragment {
         String breed = etBreed.getText().toString();
         String bdateAddPet = etBirthdate.getText().toString();
         String genderAddPet = etGender.getText().toString();
+        String edad = etEdad.getText().toString();
+        String peso = etPeso.getText().toString();
+        String alergias = etAlergias.getText().toString();
+        String enfermedades = etEnfermedades.getText().toString();
+        String esterilizado = etEnfermedades.getText().toString();
         String imageAddPet=nameAddPet+".jpg";
 
-        Pets pets = new Pets(nameAddPet, species, breed, bdateAddPet, genderAddPet);
+        Pets pets = new Pets(nameAddPet, species, breed, bdateAddPet, genderAddPet, peso, edad, esterilizado, alergias, enfermedades);
         mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
         mDatabase = mRef.child(id).child(nameAddPet).setValue(pets);
 
