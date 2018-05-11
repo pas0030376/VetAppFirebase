@@ -161,11 +161,8 @@ public class Navigation extends AppCompatActivity
         AuthUI.getInstance()
                 .signOut(Navigation.this)
                 .addOnCompleteListener(new OnCompleteListener<Void>(){
-
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-
-
                         FirebaseAuth.getInstance().signOut();
                         CharSequence text = "Signed out.";
                         int duration = Toast.LENGTH_SHORT;
@@ -175,8 +172,6 @@ public class Navigation extends AppCompatActivity
                         startActivity(i);
                     }
                 });
-
-
     }
 
 
