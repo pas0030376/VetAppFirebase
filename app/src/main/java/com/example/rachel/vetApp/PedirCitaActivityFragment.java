@@ -65,17 +65,23 @@ public class PedirCitaActivityFragment extends Fragment {
         adapter = new FirebaseListAdapter<Pets>(options) {
             @Override
             protected void populateView(View v, Pets model, int position) {
-               // CircleImage photo = v.findViewById(R.id.cipet);
+                CircleImage photo = v.findViewById(R.id.cipet);
                 TextView petName = v.findViewById(R.id.tvname);
 
                 petName.setText(model.getNameAddPet());
 
-                String url = id+"_"+model.getNameAddPet()+".jpg";
-              /*  Glide.with(getContext())
-                     .load(storageRef.child(url))
-                     .into(photo);*/
-                     }
-                };
+                String url = id + "_" + model.getNameAddPet() + ".jpg";
+                if (model.getPetlistImg() != null) {
+                    Glide.with(getContext())
+                            .load(storageRef.child(url))
+                            .into(photo);
+                }else{
+                    Glide.with(getContext())
+                            .load("http://3.bp.blogspot.com/-PT0BXLSMNaU/UJA8pf0kHoI/AAAAAAAAEjY/Ko8m6RAj6Mw/s1600/20.jpg")
+                            .into(photo);
+                }
+            }
+                    };
 
         list.setAdapter(adapter);
 
