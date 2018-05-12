@@ -42,9 +42,10 @@
         <item>Ovariohisterectomia</item>
         <item>Ovarietomía</item>
         <item>Histerectomía</item>
-        <item>Ligad. de trompas</item>
+        <item>Ligadura de trompas</item>
         <item>Orquictomía</item>
         <item>Vasectomia</item>
+        <item>Otras</item>
     </string-array>
     <string name="title_activity_citas_detail">CitasDetailActivity</string>
     <string name="title_activity_pedir_cita">PedirCitaActivity</string>
