@@ -45,7 +45,6 @@ public class CitasActivityFragment extends Fragment {
                   startActivity(CancelarIntent); }
             }
         });
-
         return view;
     }
 }
