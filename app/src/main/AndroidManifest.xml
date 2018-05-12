@@ -6,8 +6,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-feature android:name="android.hardware.camera"
+
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
+
     <permission
         android:name="com.ecs.google.maps.v2.actionbarsherlock.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
@@ -129,6 +132,42 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.rachel.vetApp.DetailPetActivity" />
+        </activity>
+        <activity
+            android:name=".addPetActivityFragment$addSurgeryActivity"
+            android:label="@string/title_activity_add_surgery"
+            android:parentActivityName=".DetailPetActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.rachel.vetApp.DetailPetActivity" />
+        </activity>
+        <activity
+            android:name=".addSurgeryActivity"
+            android:label="@string/title_activity_add_surgery"
+            android:parentActivityName=".DetailPetActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.rachel.vetApp.DetailPetActivity" />
+        </activity>
+        <activity
+            android:name=".CitasDetailActivity"
+            android:label="@string/title_activity_citas_detail"
+            android:parentActivityName=".CitasActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.rachel.vetApp.CitasActivity" />
+        </activity>
+        <activity
+            android:name=".PedirCitaActivity"
+            android:label="@string/title_activity_pedir_cita"
+            android:parentActivityName=".CitasActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.rachel.vetApp.CitasActivity" />
         </activity>
     </application>
 

@@ -2,8 +2,8 @@
     <string name="app_name">VetApp</string>
     <string name="title_activity_navigation">Home</string>
 
-    <item name="visible" type="id"/>
-    <item name="masked" type="id"/>
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -36,5 +36,17 @@
     </string-array>
     <string name="title_activity_detail_pet">DetailPetActivity</string>
     <string name="title_activity_add_vacunas">addVacunasActivity</string>
+    <string name="title_activity_add_surgery">addSurgeryActivity</string>
+
+    <string-array name="Tipos_cirugias">
+        <item>Ovariohisterectomia</item>
+        <item>Ovarietomía</item>
+        <item>Histerectomía</item>
+        <item>Ligad. de trompas</item>
+        <item>Orquictomía</item>
+        <item>Vasectomia</item>
+    </string-array>
+    <string name="title_activity_citas_detail">CitasDetailActivity</string>
+    <string name="title_activity_pedir_cita">PedirCitaActivity</string>
 
 </resources>
