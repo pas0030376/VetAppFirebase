@@ -57,16 +57,14 @@ public class addPetActivityFragment extends Fragment {
     FirebaseUser user = mAuth.getCurrentUser();
     String id = user.getUid().toString();
 
-<<<<<<< HEAD
-=======
+
 
     StorageReference mReference;
->>>>>>> 47749eb9ce64554621959c5177a9f80b495a4c8d
+
     StorageReference storageRef;
 
     private View view;
 
-    Uri contentURI;
 
 
 
@@ -134,12 +132,8 @@ public class addPetActivityFragment extends Fragment {
         String imageAddPet=nameAddPet+".jpg";
         String image = id+nameAddPet;
 
-<<<<<<< HEAD
-
-        Pets pets = new Pets(nameAddPet, species, breed, bdateAddPet, genderAddPet, peso, edad, esterilizado, alergias, enfermedades);
-=======
         Pets pets = new Pets(nameAddPet, species, breed, bdateAddPet, genderAddPet, peso, edad, esterilizado, alergias, enfermedades,image);
->>>>>>> 47749eb9ce64554621959c5177a9f80b495a4c8d
+
         mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
         mDatabase = mRef.child(id).child(nameAddPet).setValue(pets);
         if(contentURI != null) {
@@ -171,11 +165,10 @@ public class addPetActivityFragment extends Fragment {
         toast.show();
     }
     private void showPictureDialog(){
-<<<<<<< HEAD
-        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getContext());
-=======
+
+
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this.getContext());
->>>>>>> 47749eb9ce64554621959c5177a9f80b495a4c8d
+
         pictureDialog.setTitle("Seleccione una opción");
         String[] pictureDialogItems = {
                 "Seleccionar foto desde galería",
@@ -214,41 +207,29 @@ public class addPetActivityFragment extends Fragment {
         if (resultCode == getActivity().RESULT_CANCELED) {
             return;
         }
+        if (resultCode == getActivity().RESULT_CANCELED) {
+            return;
+        }
         if (requestCode == GALLERY) {
             if (data != null) {
                 contentURI = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), contentURI);
                     String path = saveImage(bitmap);
-<<<<<<< HEAD
-                    Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();//***
-                    imgImageAddPet.setImageBitmap(bitmap);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getContext(), "Failed!", Toast.LENGTH_SHORT).show();
-=======
                     Toast.makeText(this.getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();//***
                     foto_gallery.setImageBitmap(bitmap);
 
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(this.getContext(), "Failed!", Toast.LENGTH_SHORT).show();
->>>>>>> 47749eb9ce64554621959c5177a9f80b495a4c8d
                 }
             }
 
         } else if (requestCode == CAMERA) {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-<<<<<<< HEAD
-            imgImageAddPet.setImageBitmap(thumbnail);
-            saveImage(thumbnail);
-            Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
-=======
             foto_gallery.setImageBitmap(thumbnail);
             saveImage(thumbnail);
             Toast.makeText(this.getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
->>>>>>> 47749eb9ce64554621959c5177a9f80b495a4c8d
         }
     }
 
@@ -267,12 +248,8 @@ public class addPetActivityFragment extends Fragment {
                     .getTimeInMillis() + ".jpg");
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-<<<<<<< HEAD
-            MediaScannerConnection.scanFile(getContext(),
-=======
+
             MediaScannerConnection.scanFile(this.getContext(),
->>>>>>> 47749eb9ce64554621959c5177a9f80b495a4c8d
                     new String[]{f.getPath()},
                     new String[]{"image/jpeg"}, null);
             fo.close();
@@ -284,9 +261,7 @@ public class addPetActivityFragment extends Fragment {
         }
         return "";
     }
-<<<<<<< HEAD
 
-=======
 
     /*
     private void onCaptureImageResult(Intent data) {
@@ -379,6 +354,5 @@ public class addPetActivityFragment extends Fragment {
         foto_gallery.setImageBitmap(bm);
 
     }*/
->>>>>>> 47749eb9ce64554621959c5177a9f80b495a4c8d
 
 }
