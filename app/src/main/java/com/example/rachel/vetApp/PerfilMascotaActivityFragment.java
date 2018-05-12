@@ -102,10 +102,15 @@ public class PerfilMascotaActivityFragment extends Fragment {
 
                 petImg = v.findViewById(R.id.petImg);
 
+<<<<<<< HEAD
                 /*if (model.getPetlistImg() != null) {
+=======
+               /* if (model.getImageURL() != null) {
+>>>>>>> 47749eb9ce64554621959c5177a9f80b495a4c8d
                     Glide.with(getContext())
-                            .load(storageRef.child(id + "_" + model.getNameAddPet() + ".jpg"))
+                            .load(storageRef.child(id + model.getImageURL() + ".jpg"))
                             .into(petImg);
+                    Log.w("URL", String.valueOf(storageRef.child(id + model.getImageURL() + ".jpg")));
                 }else{
                     Glide.with(getContext())
                             .load("http://3.bp.blogspot.com/-PT0BXLSMNaU/UJA8pf0kHoI/AAAAAAAAEjY/Ko8m6RAj6Mw/s1600/20.jpg")

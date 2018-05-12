@@ -90,7 +90,7 @@ public class PedirCitaActivityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Pets pets = (Pets) parent.getItemAtPosition(position);
-                AddpetToCita(pets);
+                AddToCita(pets);
             }
         });
 
@@ -98,9 +98,9 @@ public class PedirCitaActivityFragment extends Fragment {
 
     }
 
-    private void AddpetToCita(Pets pets) {
+    private void AddToCita(Pets pets) {
         pets.getNameAddPet();
-        
+
     }
 
 
