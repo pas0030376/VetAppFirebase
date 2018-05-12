@@ -1,11 +1,13 @@
 package com.example.rachel.vetApp;
 
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -84,8 +86,22 @@ public class PedirCitaActivityFragment extends Fragment {
                     };
 
         list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Pets pets = (Pets) parent.getItemAtPosition(position);
+                AddpetToCita(pets);
+            }
+        });
 
         return view;
 
     }
+
+    private void AddpetToCita(Pets pets) {
+        pets.getNameAddPet();
+        
+    }
+
+
 }
