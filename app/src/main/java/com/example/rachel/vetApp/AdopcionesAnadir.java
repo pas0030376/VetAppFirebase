@@ -11,13 +11,16 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +45,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Calendar;
 
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
@@ -51,15 +59,15 @@ public class AdopcionesAnadir extends AppCompatActivity {
     ImageView foto_gallery;
     private DatabaseReference mRef;
     private Task<Void> mDatabase;
+    private static final String IMAGE_DIRECTORY = "/vetApp";
+    private int GALLERY = 1, CAMERA = 2;
+    private Uri contentURI;
 
-    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-    private static final int  MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE= 2;
-    private String userChoosenTask;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
 
-    StorageReference mReference;
-    StorageReference storageRef;
+
+    private StorageReference mStorage;
 
 
     @Override
@@ -77,24 +85,25 @@ public class AdopcionesAnadir extends AppCompatActivity {
 
         foto_gallery = (ImageView)findViewById(R.id.foto_gallery);
 
-        storageRef = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");
+        //mStorage = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");
+        mStorage=FirebaseStorage.getInstance().getReference();
 
         foto_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveImageOfAdoptedPet();
+                showPictureDialog();
             }
         });
         btnPublicar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeAdoptedPet();
+                guadarNuevaAdopcion();
             }
         });
 
     }
 
-    private void writeAdoptedPet() {
+    /*private void writeAdoptedPet() {
 
 
         String nom =etNombre.getText().toString();
@@ -113,169 +122,125 @@ public class AdopcionesAnadir extends AppCompatActivity {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(getApplicationContext(), text, duration);
         toast.show();
-    }
-
-    private void saveImageOfAdoptedPet() {
-
-        final CharSequence[] items = { "Take a photo", "Gallery",
-                "Cancel" };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(AdopcionesAnadir.this);
-        builder.setTitle("Añade una foto");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                String p1 = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-                @SuppressLint({"NewApi", "LocalSuppress"}) int result=getApplicationContext().checkSelfPermission(p1);
-
-                if (items[item].equals("Take a photo")) {
-                    userChoosenTask ="Take a photo";
-                    if(result == 0)
-                        cameraIntent();
-
-                } else if (items[item].equals("Gallery")) {
-                    userChoosenTask ="Gallery";
-                    galleryIntent();
-
-                } else if (items[item].equals("Cancel")) {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if(userChoosenTask.equals("Take a photo"))
-                        cameraIntent();
-                    else if(userChoosenTask.equals("Gallery"))
-                        galleryIntent();
-                } else {
-                    //code for deny
-                }
-                break;
-        }
-    }
-
-
-    private void cameraIntent()
-    {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA);
-    }
-
-    private void galleryIntent()
-    {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
-                onSelectFromGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA)
-                onCaptureImageResult(data);
-        }
-    }
-
-    private void onCaptureImageResult(Intent data) {
-
-        foto_gallery.setDrawingCacheEnabled(true);
-        foto_gallery.buildDrawingCache();
-
-        final Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-
-
-        String nom = etNombre.getText().toString();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] item = baos.toByteArray();
-
-        mReference = storageRef.child(nom + ".jpg");
-        UploadTask uploadTask = mReference.putBytes(item);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Context context = getApplicationContext();
-                CharSequence text = "Picture not uploaded. Please try again.";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                foto_gallery.setImageBitmap(bitmap);
-                Context context = getApplicationContext();
-                CharSequence text = "Image saved.";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
-        });
-
-
-    }
-
-    @SuppressLint("RestrictedApi")
-    private void onSelectFromGalleryResult(Intent data) {
-        Bitmap bm=null;
-        if (data != null) {
-            try {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
-                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] item = baos.toByteArray();
-
-                String nom = etNombre.getText().toString();
-
-                mReference = storageRef.child(nom + ".jpg");
-                UploadTask uploadTask = mReference.putBytes(item);
-                final Bitmap finalBm = bm;
-                uploadTask.addOnFailureListener(new OnFailureListener() {
+    }*/
+    private void showPictureDialog(){
+        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
+        pictureDialog.setTitle("Seleccione una opción");
+        String[] pictureDialogItems = {
+                "Seleccionar foto desde galería",
+                "Hacer foto" };
+        pictureDialog.setItems(pictureDialogItems,
+                new DialogInterface.OnClickListener() {
                     @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Context context = getApplicationContext();
-                        CharSequence text = "Picture not uploaded. Please try again.";
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        foto_gallery.setImageBitmap(finalBm);
-                        Context context = getApplicationContext();
-                        CharSequence text = "Image saved.";
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                choosePhotoFromGallary();
+                                break;
+                            case 1:
+                                takePhotoFromCamera();
+                                break;
+                        }
                     }
                 });
+        pictureDialog.show();
+    }
+    public void choosePhotoFromGallary() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-            } catch (IOException e) {
-                e.printStackTrace();
+        startActivityForResult(galleryIntent, GALLERY);
+    }
+
+    private void takePhotoFromCamera() {
+        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, CAMERA);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == this.RESULT_CANCELED) {
+            return;
+        }
+        if (requestCode == GALLERY) {
+            if (data != null) {
+                contentURI = data.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                    String path = saveImage(bitmap);
+                    Toast.makeText(this, "Image Saved!", Toast.LENGTH_SHORT).show();//***
+                    foto_gallery.setImageBitmap(bitmap);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show();
+                }
             }
+
+        } else if (requestCode == CAMERA) {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            foto_gallery.setImageBitmap(thumbnail);
+            saveImage(thumbnail);
+            Toast.makeText(this, "Image Saved!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public String saveImage(Bitmap myBitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        File wallpaperDirectory = new File(
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        // have the object build the directory structure, if needed.
+        if (!wallpaperDirectory.exists()) {
+            wallpaperDirectory.mkdirs();
         }
 
-        foto_gallery.setImageBitmap(bm);
+        try {
+            File f = new File(wallpaperDirectory, Calendar.getInstance()
+                    .getTimeInMillis() + ".jpg");
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+            MediaScannerConnection.scanFile(this,
+                    new String[]{f.getPath()},
+                    new String[]{"image/jpeg"}, null);
+            fo.close();
+            Log.d("TAG", "File Saved::--->" + f.getAbsolutePath());
+
+            return f.getAbsolutePath();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return "";
+    }
+
+    private void guadarNuevaAdopcion(){
+        String nom =etNombre.getText().toString();
+        String type = etTipoAnimal.getText().toString();
+        String desc = etDescripcion.getText().toString();
+        String telefono = etTelefono.getText().toString();
+        String city = etCiudad.getText().toString();
+        String pais=etPais.getText().toString();
+        //creamos la carpeta fotos dentro del storage de Firebase
+        StorageReference filePath=mStorage.child("fotos"+contentURI.getLastPathSegment());
+        filePath.putFile(contentURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(AdopcionesAnadir.this,"Se subio exitosamente la foto",Toast.LENGTH_LONG).show();
+                Adopcion adopcion=new Adopcion(type,nom,desc,telefono,city,pais,taskSnapshot.getDownloadUrl().toString());
+                //Guardo la clase en firebase database
+                mRef =  FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
+                String mId = nom;
+                //String uploadId=mRef.push().getKey();
+                mDatabase = mRef.child("Adoption").child(mId).setValue(adopcion);
+
+            }
+        });
+
 
     }
+
+
 
 }

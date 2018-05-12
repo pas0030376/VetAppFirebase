@@ -48,6 +48,27 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Calendar;
 
 import static android.app.Activity.RESULT_OK;
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
@@ -63,11 +84,8 @@ public class addPetActivityFragment extends Fragment {
 
     private DatabaseReference mRef;
     private Task<Void> mDatabase;
-
-    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-    private static final int  MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE= 2;
-    private String userChoosenTask;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final String IMAGE_DIRECTORY = "/vetApp";
+    private int GALLERY = 1, CAMERA = 2;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -75,10 +93,13 @@ public class addPetActivityFragment extends Fragment {
     String id = user.getUid().toString();
 
 
+
+
     StorageReference mReference;
     StorageReference storageRef;
 
     private View view;
+
 
 
     public addPetActivityFragment() {
@@ -111,7 +132,7 @@ public class addPetActivityFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                saveImageOfPet();
+                showPictureDialog();
             }
         });
 
@@ -149,95 +170,98 @@ public class addPetActivityFragment extends Fragment {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(getContext(), text, duration);
         toast.show();
+    }
+    private void showPictureDialog(){
+        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getActivity());
+        pictureDialog.setTitle("Seleccione una opción");
+        String[] pictureDialogItems = {
+                "Seleccionar foto desde galería",
+                "Hacer foto" };
+        pictureDialog.setItems(pictureDialogItems,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                choosePhotoFromGallary();
+                                break;
+                            case 1:
+                                takePhotoFromCamera();
+                                break;
+                        }
+                    }
+                });
+        pictureDialog.show();
+    }
+    public void choosePhotoFromGallary() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-
+        startActivityForResult(galleryIntent, GALLERY);
     }
 
-    private void saveImageOfPet() {
-        final CharSequence[] items = { "Take a photo", "Gallery",
-                "Cancel" };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Añade una foto");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                String p1 = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-                @SuppressLint({"NewApi", "LocalSuppress"}) int result=getContext().checkSelfPermission(p1);
-
-                if (items[item].equals("Take a photo")) {
-                    userChoosenTask ="Take a photo";
-                    if(result == 0)
-                        cameraIntent();
-
-                } else if (items[item].equals("Gallery")) {
-                    userChoosenTask ="Gallery";
-                    galleryIntent();
-
-                } else if (items[item].equals("Cancel")) {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
+    private void takePhotoFromCamera() {
+        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, CAMERA);
     }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if(userChoosenTask.equals("Take a photo"))
-                        cameraIntent();
-                    else if(userChoosenTask.equals("Gallery"))
-                        galleryIntent();
-                } else {
-                    //code for deny
-                }
-                break;
-        }
-    }
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-
-    }
-    private void cameraIntent()
-    {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA);
-    }
-
-    private void galleryIntent()
-    {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);//
-        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
-                onSelectFromGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA)
-                onCaptureImageResult(data);
-            else if (requestCode == REQUEST_IMAGE_CAPTURE){
-                Bundle extras = data.getExtras();
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                imgImageAddPet.setImageBitmap(imageBitmap);
-            }
+        if (resultCode == getActivity().RESULT_CANCELED) {//**
+            return;
         }
+        if (requestCode == GALLERY) {
+            if (data != null) {
+                Uri contentURI = data.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
+                    String path = saveImage(bitmap);
+                    Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();//***
+                    imgImageAddPet.setImageBitmap(bitmap);
 
+                } catch (IOException e) {
+                    e.printStackTrace();    //***
+                    Toast.makeText(getActivity(), "Failed!", Toast.LENGTH_SHORT).show();
+                }
+            }
 
+        } else if (requestCode == CAMERA) {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            imgImageAddPet.setImageBitmap(thumbnail);
+            saveImage(thumbnail);   //***
+            Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
+        }
     }
 
+    public String saveImage(Bitmap myBitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        File wallpaperDirectory = new File(
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        // have the object build the directory structure, if needed.
+        if (!wallpaperDirectory.exists()) {
+            wallpaperDirectory.mkdirs();
+        }
+
+        try {
+            File f = new File(wallpaperDirectory, Calendar.getInstance()
+                    .getTimeInMillis() + ".jpg");
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+            MediaScannerConnection.scanFile(getActivity(),//****
+                    new String[]{f.getPath()},
+                    new String[]{"image/jpeg"}, null);
+            fo.close();
+            Log.d("TAG", "File Saved::--->" + f.getAbsolutePath());
+
+            return f.getAbsolutePath();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return "";
+    }
     private void onCaptureImageResult(Intent data) {
 
         imgImageAddPet.setDrawingCacheEnabled(true);
@@ -328,8 +352,4 @@ public class addPetActivityFragment extends Fragment {
         imgImageAddPet.setImageBitmap(bm);
 
     }
-
-
-
-
 }

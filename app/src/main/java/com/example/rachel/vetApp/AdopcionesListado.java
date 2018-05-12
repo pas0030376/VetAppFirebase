@@ -15,7 +15,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
+import android.util.Base64;
+import java.io.ByteArrayOutputStream;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
