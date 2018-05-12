@@ -41,7 +41,7 @@ public class CitasActivityFragment extends Fragment {
                   Intent pedirIntent = new Intent(getContext(), addVacunasActivity.class);
                   startActivity(pedirIntent); }
                else if (item.getText().equals("Cancelar Cita")){
-                  Intent CancelarIntent = new Intent(getContext(), addVacunasActivity.class);
+                  Intent CancelarIntent = new Intent(getContext(), CitasDetailActivity.class);
                   startActivity(CancelarIntent); }
             }
         });

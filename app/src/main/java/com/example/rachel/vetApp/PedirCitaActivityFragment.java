@@ -1,0 +1,86 @@
+package com.example.rachel.vetApp;
+
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.database.FirebaseListOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.jackandphantom.circularimageview.CircleImage;
+
+/**
+ * A placeholder fragment containing a simple view.
+ */
+public class PedirCitaActivityFragment extends Fragment {
+
+    ListView list;
+    FirebaseListAdapter<Pets> adapter;
+    DatabaseReference query;
+    FirebaseListOptions<Pets> options;
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");;
+
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser user = mAuth.getCurrentUser();
+    String id = user.getUid().toString();
+
+    public PedirCitaActivityFragment() {
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view =  inflater.inflate(R.layout.fragment_pedir_cita, container, false);
+
+        list = view.findViewById(R.id.lvmypets);
+        query = FirebaseDatabase.getInstance()
+                .getReference()
+                .child(id);
+
+        options = new FirebaseListOptions.Builder<Pets>()
+                .setQuery(query, Pets.class)
+                .setLayout(R.layout.listcitaspets)
+                .build();
+
+        adapter = new FirebaseListAdapter<Pets>(options) {
+            @Override
+            protected void populateView(View v, Pets model, int position) {
+                CircleImage photo = view.findViewById(R.id.cipet);
+                TextView petName = view.findViewById(R.id.tvname);
+
+                petName.setText(model.getNameAddPet());
+
+            }
+        };
+
+        list.setAdapter(adapter);
+
+        return view;
+
+    }
+}

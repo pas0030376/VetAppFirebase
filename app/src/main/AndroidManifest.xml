@@ -149,6 +149,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.rachel.vetApp.DetailPetActivity" />
         </activity>
+        <activity
+            android:name=".CitasDetailActivity"
+            android:label="@string/title_activity_citas_detail"
+            android:parentActivityName=".CitasActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.rachel.vetApp.CitasActivity" />
+        </activity>
+        <activity
+            android:name=".PedirCitaActivity"
+            android:label="@string/title_activity_pedir_cita"
+            android:parentActivityName=".CitasActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.rachel.vetApp.CitasActivity" />
+        </activity>
     </application>
 
 </manifest>

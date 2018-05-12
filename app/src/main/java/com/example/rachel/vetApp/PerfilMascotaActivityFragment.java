@@ -83,40 +83,40 @@ public class PerfilMascotaActivityFragment extends Fragment {
 
         petList = view.findViewById(R.id.petList);
 
-            query = FirebaseDatabase.getInstance()
-                    .getReference()
-                    .child(id);
+        query = FirebaseDatabase.getInstance()
+                .getReference()
+                .child(id);
 
-            options = new FirebaseListOptions.Builder<Pets>()
-                    .setQuery(query, Pets.class)
-                    .setLayout(R.layout.petlist)
-                    .build();
+        options = new FirebaseListOptions.Builder<Pets>()
+                .setQuery(query, Pets.class)
+                .setLayout(R.layout.petlist)
+                .build();
 
-            adapter = new FirebaseListAdapter<Pets>(options) {
-                @Override
-                protected void populateView(View v, Pets model, int position) {
-                    petName = v.findViewById(R.id.petName);
-                    petBreed = v.findViewById(R.id.petBreed);
-                    petName.setText(model.getNameAddPet());
-                    petBreed.setText(model.getBreed());
+        adapter = new FirebaseListAdapter<Pets>(options) {
+            @Override
+            protected void populateView(View v, Pets model, int position) {
+                petName = v.findViewById(R.id.petName);
+                petBreed = v.findViewById(R.id.petBreed);
+                petName.setText(model.getNameAddPet());
+                petBreed.setText(model.getBreed());
 
-                    petImg = v.findViewById(R.id.petImg);
+                petImg = v.findViewById(R.id.petImg);
 
-                    storageRef.child(id+"_"+model.getNameAddPet()+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Log.w("STORAGE", uri.toString());
-                            Glide.with(getContext()).load(uri).into(petImg);
+                storageRef.child(id+"_"+model.getNameAddPet()+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Log.w("STORAGE", uri.toString());
+                        Glide.with(getContext()).load(uri).into(petImg);
 
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
 
-                        }
-                    });
-                }
-            };
+                    }
+                });
+            }
+        };
 
         petList.setAdapter(adapter);
         petList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
