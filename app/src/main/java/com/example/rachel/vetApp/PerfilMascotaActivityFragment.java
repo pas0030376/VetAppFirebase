@@ -102,7 +102,11 @@ public class PerfilMascotaActivityFragment extends Fragment {
 
                 petImg = v.findViewById(R.id.petImg);
 
-                storageRef.child(id+"_"+model.getNameAddPet()+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                Glide.with(getContext())
+                        .load(storageRef.child(id + "_" + model.getNameAddPet() + ".jpg"))
+                        .into(petImg);
+
+               /* storageRef.child(id+"_"+model.getNameAddPet()+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         Log.w("STORAGE", uri.toString());
@@ -114,7 +118,7 @@ public class PerfilMascotaActivityFragment extends Fragment {
                     public void onFailure(@NonNull Exception exception) {
 
                     }
-                });
+                });*/
             }
         };
 

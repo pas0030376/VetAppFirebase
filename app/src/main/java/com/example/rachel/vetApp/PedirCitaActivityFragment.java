@@ -1,16 +1,15 @@
 package com.example.rachel.vetApp;
 
-import android.net.Uri;
-import android.support.annotation.NonNull;
+
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,9 +20,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.jackandphantom.circularimageview.CircleImage;
 
-/**
- * A placeholder fragment containing a simple view.
- */
+
+
 public class PedirCitaActivityFragment extends Fragment {
 
     ListView list;
@@ -37,9 +35,6 @@ public class PedirCitaActivityFragment extends Fragment {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user = mAuth.getCurrentUser();
     String id = user.getUid().toString();
-
-    public PedirCitaActivityFragment() {
-    }
 
     @Override
     public void onStart() {
@@ -70,13 +65,17 @@ public class PedirCitaActivityFragment extends Fragment {
         adapter = new FirebaseListAdapter<Pets>(options) {
             @Override
             protected void populateView(View v, Pets model, int position) {
-                CircleImage photo = view.findViewById(R.id.cipet);
-                TextView petName = view.findViewById(R.id.tvname);
+               // CircleImage photo = v.findViewById(R.id.cipet);
+                TextView petName = v.findViewById(R.id.tvname);
 
                 petName.setText(model.getNameAddPet());
 
-            }
-        };
+                String url = id+"_"+model.getNameAddPet()+".jpg";
+              /*  Glide.with(getContext())
+                     .load(storageRef.child(url))
+                     .into(photo);*/
+                     }
+                };
 
         list.setAdapter(adapter);
 
