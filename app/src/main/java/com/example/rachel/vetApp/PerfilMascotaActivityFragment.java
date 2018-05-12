@@ -126,13 +126,11 @@ public class PerfilMascotaActivityFragment extends Fragment {
                     @Override
                     public void onSuccess(Uri uri) {
                         Log.w("STORAGE", uri.toString());
-                        Glide.with(getContext()).load(storageRef.child(id+model.getNameAddPet()+".jpg").getDownloadUrl()).into(petImg);
-
+                        Glide.with(getContext()).load(uri).into(petImg);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-
                     }
                 });
             }
