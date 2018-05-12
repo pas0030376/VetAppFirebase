@@ -175,40 +175,5 @@ public class Navigation extends AppCompatActivity
     }
 
 
-    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
-        int width = 0;
-        int height = 0;
-
-        //hacemos que la imagen sea cuadrada
-            if(bitmap.getWidth() < bitmap.getHeight()){
-                width = bitmap.getWidth();
-                height = bitmap.getWidth();
-            } else {
-                width = bitmap.getHeight();
-                height =bitmap.getHeight();
-            }
-
-
-        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect;
-        rect = new Rect(0, 0, width, height);
-        final RectF rectF = new RectF(rect);
-        //hacemos que la foto sea redonda
-        final float roundPx = 360;
-
-       paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect,paint);
-
-        return output;
-    }
 
 }

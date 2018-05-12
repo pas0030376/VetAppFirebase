@@ -111,6 +111,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
+
+
         Button btnvets = (Button) findViewById(R.id.btnvets);
         btnvets.setOnClickListener(new View.OnClickListener() {
             String search = "veterinary_care";
