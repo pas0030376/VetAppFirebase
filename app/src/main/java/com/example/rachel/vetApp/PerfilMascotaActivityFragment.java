@@ -102,7 +102,7 @@ public class PerfilMascotaActivityFragment extends Fragment {
 
                 petImg = v.findViewById(R.id.petImg);
 
-                if (model.getPetlistImg() != null) {
+                /*if (model.getPetlistImg() != null) {
                     Glide.with(getContext())
                             .load(storageRef.child(id + "_" + model.getNameAddPet() + ".jpg"))
                             .into(petImg);
@@ -110,9 +110,9 @@ public class PerfilMascotaActivityFragment extends Fragment {
                     Glide.with(getContext())
                             .load("http://3.bp.blogspot.com/-PT0BXLSMNaU/UJA8pf0kHoI/AAAAAAAAEjY/Ko8m6RAj6Mw/s1600/20.jpg")
                             .into(petImg);
-                }
+                }*/
 
-               /* storageRef.child(id+"_"+model.getNameAddPet()+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                storageRef.child(id+"_"+model.getNameAddPet()+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         Log.w("STORAGE", uri.toString());
@@ -124,7 +124,7 @@ public class PerfilMascotaActivityFragment extends Fragment {
                     public void onFailure(@NonNull Exception exception) {
 
                     }
-                });*/
+                });
             }
         };
 

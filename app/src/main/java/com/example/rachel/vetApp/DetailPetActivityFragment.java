@@ -57,8 +57,8 @@ public class DetailPetActivityFragment extends Fragment {
 
         getActivity().setTitle("Perfil de Mascota");
 
-        MultiChoicesCircleButton.Item item1 = new MultiChoicesCircleButton.Item("Add vacuna", getResources().getDrawable(R.drawable.icondate), 60);
-        MultiChoicesCircleButton.Item item2 = new MultiChoicesCircleButton.Item("Add surgery", getResources().getDrawable(R.drawable.iconcancel), 120);
+        MultiChoicesCircleButton.Item item1 = new MultiChoicesCircleButton.Item("Añadir vacunas", getResources().getDrawable(R.drawable.afegirvacuna), 60);
+        MultiChoicesCircleButton.Item item2 = new MultiChoicesCircleButton.Item("Añadir cirugías", getResources().getDrawable(R.drawable.afegirsurgery), 120);
 
         List<MultiChoicesCircleButton.Item> buttonItems = new ArrayList<>();
         buttonItems.add(item1);
@@ -72,11 +72,11 @@ public class DetailPetActivityFragment extends Fragment {
             @Override
             public void onSelected(MultiChoicesCircleButton.Item item, int index) {
                 switch (item.getText()) {
-                    case "Add vacuna":
+                    case "Añadir vacunas":
                         Intent i = new Intent(getContext(), addVacunasActivity.class);
                         startActivity(i);
                         break;
-                    case "Add surgery":
+                    case "Añadir cirugías":
                         startActivity( new Intent(getContext(), addSurgeryActivity.class));
                         break;
 

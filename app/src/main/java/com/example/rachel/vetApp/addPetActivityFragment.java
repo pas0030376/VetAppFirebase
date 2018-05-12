@@ -59,13 +59,11 @@ public class addPetActivityFragment extends Fragment {
     FirebaseUser user = mAuth.getCurrentUser();
     String id = user.getUid().toString();
 
-
-
-
-    StorageReference mReference;
     StorageReference storageRef;
 
     private View view;
+
+    Uri contentURI;
 
 
 
@@ -117,6 +115,7 @@ public class addPetActivityFragment extends Fragment {
         return view;
     }
 
+
     private void writeNewPet(String id) {
 
         String nameAddPet =etName.getText().toString();
@@ -131,6 +130,7 @@ public class addPetActivityFragment extends Fragment {
         String esterilizado = etEnfermedades.getText().toString();
         String imageAddPet=nameAddPet+".jpg";
 
+
         Pets pets = new Pets(nameAddPet, species, breed, bdateAddPet, genderAddPet, peso, edad, esterilizado, alergias, enfermedades);
         mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
         mDatabase = mRef.child(id).child(nameAddPet).setValue(pets);
@@ -141,7 +141,7 @@ public class addPetActivityFragment extends Fragment {
         toast.show();
     }
     private void showPictureDialog(){
-        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getContext());
         pictureDialog.setTitle("Seleccione una opción");
         String[] pictureDialogItems = {
                 "Seleccionar foto desde galería",
@@ -177,29 +177,29 @@ public class addPetActivityFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == getActivity().RESULT_CANCELED) {//**
+        if (resultCode == getActivity().RESULT_CANCELED) {
             return;
         }
         if (requestCode == GALLERY) {
             if (data != null) {
-                Uri contentURI = data.getData();
+                contentURI = data.getData();
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), contentURI);
                     String path = saveImage(bitmap);
-                    Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();//***
+                    Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();//***
                     imgImageAddPet.setImageBitmap(bitmap);
 
                 } catch (IOException e) {
-                    e.printStackTrace();    //***
-                    Toast.makeText(getActivity(), "Failed!", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                    Toast.makeText(getContext(), "Failed!", Toast.LENGTH_SHORT).show();
                 }
             }
 
         } else if (requestCode == CAMERA) {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
             imgImageAddPet.setImageBitmap(thumbnail);
-            saveImage(thumbnail);   //***
-            Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
+            saveImage(thumbnail);
+            Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -219,7 +219,7 @@ public class addPetActivityFragment extends Fragment {
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(getActivity(),//****
+            MediaScannerConnection.scanFile(getContext(),
                     new String[]{f.getPath()},
                     new String[]{"image/jpeg"}, null);
             fo.close();
@@ -231,95 +231,6 @@ public class addPetActivityFragment extends Fragment {
         }
         return "";
     }
-    private void onCaptureImageResult(Intent data) {
 
-        imgImageAddPet.setDrawingCacheEnabled(true);
-        imgImageAddPet.buildDrawingCache();
-
-        final Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-
-
-        String nom = etName.getText().toString();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] item = baos.toByteArray();
-
-        mReference = storageRef.child(id+"_"+nom + ".jpg");
-        UploadTask uploadTask = mReference.putBytes(item);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Context context = getContext();
-                CharSequence text = "Picture not uploaded. Please try again.";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                imgImageAddPet.setImageBitmap(bitmap);
-                Context context = getContext();
-                CharSequence text = "Image saved.";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
-        });
-
-
-    }
-
-    @SuppressLint("RestrictedApi")
-    private void onSelectFromGalleryResult(Intent data) {
-        Bitmap bm=null;
-        if (data != null) {
-            try {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
-                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] item = baos.toByteArray();
-
-                String nom = etName.getText().toString();
-
-
-                mReference = storageRef.child(id+"_"+nom + ".jpg");
-                UploadTask uploadTask = mReference.putBytes(item);
-                final Bitmap finalBm = bm;
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Context context = getContext();
-                        CharSequence text = "Picture not uploaded. Please try again.";
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        imgImageAddPet.setImageBitmap(finalBm);
-                        Context context = getContext();
-                        CharSequence text = "Image saved.";
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-                    }
-                });
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        imgImageAddPet.setImageBitmap(bm);
-
-    }
 
 }
