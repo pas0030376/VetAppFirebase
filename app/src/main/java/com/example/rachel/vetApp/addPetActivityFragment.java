@@ -1,8 +1,6 @@
 package com.example.rachel.vetApp;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -28,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import android.media.MediaScannerConnection;
@@ -37,9 +37,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 
-
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
-
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -47,7 +44,8 @@ public class addPetActivityFragment extends Fragment {
 
     EditText etName, etSpecies, etBreed, etGender, etBirthdate, etPeso, etEdad, etEsterilizado, etAlergias, etEnfermedades;
     Button btnSavePet;
-    ImageView imgImageAddPet;
+    ImageView foto_gallery;
+    private Uri contentURI;
 
     private DatabaseReference mRef;
     private Task<Void> mDatabase;
@@ -61,11 +59,12 @@ public class addPetActivityFragment extends Fragment {
 
 
 
-
     StorageReference mReference;
+
     StorageReference storageRef;
 
     private View view;
+
 
 
 
@@ -92,12 +91,12 @@ public class addPetActivityFragment extends Fragment {
         etAlergias = view.findViewById(R.id.alergias);
         etEnfermedades = view.findViewById(R.id.enfermedades);
         btnSavePet = view.findViewById(R.id.savePet);
-        imgImageAddPet = view.findViewById(R.id.imageAddPet);
+        foto_gallery = view.findViewById(R.id.imageAddPet);
 
 
         storageRef = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");
 
-        imgImageAddPet.setOnClickListener(new View.OnClickListener() {
+        foto_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -117,6 +116,7 @@ public class addPetActivityFragment extends Fragment {
         return view;
     }
 
+
     private void writeNewPet(String id) {
 
         String nameAddPet =etName.getText().toString();
@@ -130,10 +130,34 @@ public class addPetActivityFragment extends Fragment {
         String enfermedades = etEnfermedades.getText().toString();
         String esterilizado = etEnfermedades.getText().toString();
         String imageAddPet=nameAddPet+".jpg";
+        String image = id+nameAddPet;
 
-        Pets pets = new Pets(nameAddPet, species, breed, bdateAddPet, genderAddPet, peso, edad, esterilizado, alergias, enfermedades);
+        Pets pets = new Pets(nameAddPet, species, breed, bdateAddPet, genderAddPet, peso, edad, esterilizado, alergias, enfermedades,image);
+
         mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
         mDatabase = mRef.child(id).child(nameAddPet).setValue(pets);
+        if(contentURI != null) {
+            String nameImage = id+nameAddPet+".jpg";
+            StorageReference childRef = storageRef.child(nameImage);
+            UploadTask uploadTask = childRef.putFile(contentURI);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(getContext(), "Carga exitosa", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getContext(), "Carga fallida -> " + e, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else {
+            Toast.makeText(getContext(), "Selecciona una imagen", Toast.LENGTH_SHORT).show();
+        }
+
+
+
 
         CharSequence text = "Pet added.";
         int duration = Toast.LENGTH_SHORT;
@@ -141,7 +165,10 @@ public class addPetActivityFragment extends Fragment {
         toast.show();
     }
     private void showPictureDialog(){
-        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getActivity());
+
+
+        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this.getContext());
+
         pictureDialog.setTitle("Seleccione una opción");
         String[] pictureDialogItems = {
                 "Seleccionar foto desde galería",
@@ -177,29 +204,32 @@ public class addPetActivityFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == getActivity().RESULT_CANCELED) {//**
+        if (resultCode == getActivity().RESULT_CANCELED) {
+            return;
+        }
+        if (resultCode == getActivity().RESULT_CANCELED) {
             return;
         }
         if (requestCode == GALLERY) {
             if (data != null) {
-                Uri contentURI = data.getData();
+                contentURI = data.getData();
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), contentURI);
                     String path = saveImage(bitmap);
-                    Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();//***
-                    imgImageAddPet.setImageBitmap(bitmap);
+                    Toast.makeText(this.getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();//***
+                    foto_gallery.setImageBitmap(bitmap);
 
                 } catch (IOException e) {
-                    e.printStackTrace();    //***
-                    Toast.makeText(getActivity(), "Failed!", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                    Toast.makeText(this.getContext(), "Failed!", Toast.LENGTH_SHORT).show();
                 }
             }
 
         } else if (requestCode == CAMERA) {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            imgImageAddPet.setImageBitmap(thumbnail);
-            saveImage(thumbnail);   //***
-            Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
+            foto_gallery.setImageBitmap(thumbnail);
+            saveImage(thumbnail);
+            Toast.makeText(this.getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -218,8 +248,8 @@ public class addPetActivityFragment extends Fragment {
                     .getTimeInMillis() + ".jpg");
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(getActivity(),//****
+
+            MediaScannerConnection.scanFile(this.getContext(),
                     new String[]{f.getPath()},
                     new String[]{"image/jpeg"}, null);
             fo.close();
@@ -231,10 +261,13 @@ public class addPetActivityFragment extends Fragment {
         }
         return "";
     }
+
+
+    /*
     private void onCaptureImageResult(Intent data) {
 
-        imgImageAddPet.setDrawingCacheEnabled(true);
-        imgImageAddPet.buildDrawingCache();
+        foto_gallery.setDrawingCacheEnabled(true);
+        foto_gallery.buildDrawingCache();
 
         final Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 
@@ -261,7 +294,7 @@ public class addPetActivityFragment extends Fragment {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                imgImageAddPet.setImageBitmap(bitmap);
+                foto_gallery.setImageBitmap(bitmap);
                 Context context = getContext();
                 CharSequence text = "Image saved.";
                 int duration = Toast.LENGTH_SHORT;
@@ -273,7 +306,7 @@ public class addPetActivityFragment extends Fragment {
 
     }
 
-    @SuppressLint("RestrictedApi")
+   @SuppressLint("RestrictedApi")
     private void onSelectFromGalleryResult(Intent data) {
         Bitmap bm=null;
         if (data != null) {
@@ -304,7 +337,7 @@ public class addPetActivityFragment extends Fragment {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                         Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        imgImageAddPet.setImageBitmap(finalBm);
+                        foto_gallery.setImageBitmap(finalBm);
                         Context context = getContext();
                         CharSequence text = "Image saved.";
                         int duration = Toast.LENGTH_SHORT;
@@ -318,8 +351,8 @@ public class addPetActivityFragment extends Fragment {
             }
         }
 
-        imgImageAddPet.setImageBitmap(bm);
+        foto_gallery.setImageBitmap(bm);
 
-    }
+    }*/
 
 }

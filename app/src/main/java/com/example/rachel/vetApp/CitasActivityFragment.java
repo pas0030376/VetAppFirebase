@@ -38,7 +38,7 @@ public class CitasActivityFragment extends Fragment {
             @Override
             public void onSelected(MultiChoicesCircleButton.Item item, int index) {
               if (item.getText().equals("Pedir Cita")){
-                  Intent pedirIntent = new Intent(getContext(), addVacunasActivity.class);
+                  Intent pedirIntent = new Intent(getContext(), PedirCitaActivity.class);
                   startActivity(pedirIntent); }
                else if (item.getText().equals("Cancelar Cita")){
                   Intent CancelarIntent = new Intent(getContext(), CitasDetailActivity.class);

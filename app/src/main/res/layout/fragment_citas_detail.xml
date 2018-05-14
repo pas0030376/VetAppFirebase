@@ -7,6 +7,7 @@
     tools:context="com.example.rachel.vetApp.CitasDetailActivityFragment"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="137dp"
+    android:background="@color/lighpink"
     tools:showIn="@layout/activity_citas_detail">
 
     <ListView

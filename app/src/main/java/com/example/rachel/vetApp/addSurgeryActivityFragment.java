@@ -33,7 +33,7 @@ public class addSurgeryActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.fragment_add_surgery, container, false);
 
-        getActivity().setTitle("Esterilización-Castración");
+        getActivity().setTitle("Cirugías");
 
         veterinaria = view.findViewById(R.id.etSurgVeterinaria);
         date = view.findViewById(R.id.btndateSurg);

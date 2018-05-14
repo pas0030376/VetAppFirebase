@@ -21,11 +21,12 @@ public class Pets implements Serializable
     private String esterilizado;
     private String alergias;
     private String enfermedades;
+    private String imageURL;
 
     public Pets(){}
 
 
-    public Pets(String nameAddPet, String species, String breed, String bdateAddPet, String genderAddPet, String peso, String edad, String esterilizado, String alergias, String enfermedades) {
+    public Pets(String nameAddPet, String species, String breed, String bdateAddPet, String genderAddPet, String peso, String edad, String esterilizado, String alergias, String enfermedades, String imageURL) {
         this.nameAddPet = nameAddPet;
         this.species = species;
         this.breed = breed;
@@ -36,6 +37,16 @@ public class Pets implements Serializable
         this.esterilizado = esterilizado;
         this.alergias = alergias;
         this.enfermedades = enfermedades;
+        this.imageURL = imageURL;
+    }
+
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public Pets(Bitmap petlistImg, String nameAddPet, String species)

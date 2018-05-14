@@ -5,18 +5,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.rachel.vetApp.CitasActivityFragment"
+    android:background="@color/lighpink"
     tools:showIn="@layout/activity_citas">
 
     <com.gjiazhe.multichoicescirclebutton.MultiChoicesCircleButton
         android:id="@+id/multiChoicesCircleButton"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="53dp"
+        android:layout_marginTop="17dp"
+        app:layout_behavior="@string/multi_choices_circle_button_behavior"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13"
+        app:mccb_buttonColor="@color/colorAccent"
         app:mccb_collapseRadius="40dp"
         app:mccb_expandRadius="120dp"
         app:mccb_icon="@drawable/iconvet"
-        app:mccb_text="Pide o Cancela tu cita"
-        app:mccb_buttonColor="@color/colorAccent"
-        app:layout_behavior="@string/multi_choices_circle_button_behavior"/>
+        app:mccb_text="Pide o Cancela tu cita" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/montserrat_alternates"
+        android:text="Habla con tu veterinario de confianza y decide con él qué programa y marca de vacunas es más adecuado para tu perro. Vacuna a tu mascota anualmente, es un seguro de vida. Ante cualquier reacción adversa, acude al veterinario."
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="17dp"
+        android:layout_marginTop="104dp"
+        android:fontFamily="@font/montserrat_alternates"
+        android:text="Pide  o cancela tu cita"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/multiChoicesCircleButton"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
 
 </android.support.constraint.ConstraintLayout>
