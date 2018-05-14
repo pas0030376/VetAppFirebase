@@ -8,16 +8,16 @@ public class Adopcion {
     private String pais;
     private String desc;
     private String telefono;
-    private String url;
+    //private String url;
 
-    public Adopcion(String tipoAnimal,String nombre,String desc,String telefono, String ciudad, String pais,String url) {
+    public Adopcion(String tipoAnimal, String nombre, String desc, String telefono, String ciudad, String pais) {
         this.tipoAnimal=tipoAnimal;
         this.nombre = nombre;
         this.desc=desc;
         this.telefono=telefono;
         this.ciudad = ciudad;
         this.pais = pais;
-        this.url=url;
+
     }
 
     public Adopcion() {}
@@ -73,12 +73,6 @@ public class Adopcion {
     }
 
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
-    public String getUrl() {
-        return url;
-    }
 
 }
