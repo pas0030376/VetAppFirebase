@@ -54,7 +54,6 @@ dependencies {
     compile 'com.github.MorochoRochaDarwin:OneCalendarView:3.1.1'
     compile 'com.jackandphantom.android:circularimageview:1.2.0'
 
-
 }
 
 

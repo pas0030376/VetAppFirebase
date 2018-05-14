@@ -58,10 +58,13 @@ public class addPetActivityFragment extends Fragment {
     String id = user.getUid().toString();
 
 
+
     StorageReference mReference;
+
     StorageReference storageRef;
 
     private View view;
+
 
 
 
@@ -113,6 +116,7 @@ public class addPetActivityFragment extends Fragment {
         return view;
     }
 
+
     private void writeNewPet(String id) {
 
         String nameAddPet =etName.getText().toString();
@@ -129,6 +133,7 @@ public class addPetActivityFragment extends Fragment {
         String image = id+nameAddPet;
 
         Pets pets = new Pets(nameAddPet, species, breed, bdateAddPet, genderAddPet, peso, edad, esterilizado, alergias, enfermedades,image);
+
         mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
         mDatabase = mRef.child(id).child(nameAddPet).setValue(pets);
         if(contentURI != null) {
@@ -160,7 +165,10 @@ public class addPetActivityFragment extends Fragment {
         toast.show();
     }
     private void showPictureDialog(){
+
+
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this.getContext());
+
         pictureDialog.setTitle("Seleccione una opción");
         String[] pictureDialogItems = {
                 "Seleccionar foto desde galería",
@@ -196,6 +204,9 @@ public class addPetActivityFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == getActivity().RESULT_CANCELED) {
+            return;
+        }
         if (resultCode == getActivity().RESULT_CANCELED) {
             return;
         }
@@ -237,7 +248,7 @@ public class addPetActivityFragment extends Fragment {
                     .getTimeInMillis() + ".jpg");
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
+
             MediaScannerConnection.scanFile(this.getContext(),
                     new String[]{f.getPath()},
                     new String[]{"image/jpeg"}, null);
@@ -250,6 +261,7 @@ public class addPetActivityFragment extends Fragment {
         }
         return "";
     }
+
 
     /*
     private void onCaptureImageResult(Intent data) {

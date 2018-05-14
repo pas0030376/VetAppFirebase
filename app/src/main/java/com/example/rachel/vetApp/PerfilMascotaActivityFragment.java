@@ -28,7 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
+import com.google.firebase.storage.UploadTask;
 
 
 /**
@@ -43,7 +43,7 @@ public class PerfilMascotaActivityFragment extends Fragment {
     FirebaseListOptions<Pets> options;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference storageRef = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");;
+    StorageReference storageRef = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user = mAuth.getCurrentUser();
@@ -102,9 +102,9 @@ public class PerfilMascotaActivityFragment extends Fragment {
 
                 petImg = v.findViewById(R.id.petImg);
 
-               /* if (model.getImageURL() != null) {
+               /*if (model.getImageURL() != null) {
                     Glide.with(getContext())
-                            .load(storageRef.child(id + model.getImageURL() + ".jpg"))
+                            .load(storageRef.child(id + model.getNameAddPet() + ".jpg"))
                             .into(petImg);
                     Log.w("URL", String.valueOf(storageRef.child(id + model.getImageURL() + ".jpg")));
                 }else{
@@ -113,19 +113,26 @@ public class PerfilMascotaActivityFragment extends Fragment {
                             .into(petImg);
                 }*/
 
-               /* storageRef.child(id+"_"+model.getNameAddPet()+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                /*StorageReference imagePath = storageRef.child(id+model.getNameAddPet()+".jpg");
+                Uri url = Uri.parse(imagePath.toString());
+                Log.i("PHOTO", url.toString());
+                imagePath.putFile(url).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Glide.with(getContext()).load(imagePath).into(petImg);
+                    }
+                });*/
+                storageRef.child(id+model.getNameAddPet()+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         Log.w("STORAGE", uri.toString());
                         Glide.with(getContext()).load(uri).into(petImg);
-
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-
                     }
-                });*/
+                });
             }
         };
 
