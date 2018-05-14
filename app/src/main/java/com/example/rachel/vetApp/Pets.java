@@ -49,30 +49,6 @@ public class Pets implements Serializable
         this.imageURL = imageURL;
     }
 
-    public Pets(Bitmap petlistImg, String nameAddPet, String species)
-    {
-        this.petlistImg = petlistImg;
-        this.nameAddPet = nameAddPet;
-        this.species = species;
-    }
-
-    public Pets(Bitmap petlistImg, String nameAddPet, String species, String breed, String bdateAddPet, String genderAddPet) {
-        this.petlistImg = petlistImg;
-        this.nameAddPet = nameAddPet;
-        this.species = species;
-        this.breed = breed;
-        this.bdateAddPet = bdateAddPet;
-        this.genderAddPet = genderAddPet;
-    }
-
-    public Pets(String nameAddPet, String species, String breed, String bdateAddPet, String genderAddPet) {
-        this.nameAddPet = nameAddPet;
-        this.species = species;
-        this.breed = breed;
-        this.bdateAddPet = bdateAddPet;
-        this.genderAddPet = genderAddPet;
-    }
-
     public String getPeso() {
         return peso;
     }

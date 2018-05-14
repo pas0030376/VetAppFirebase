@@ -28,6 +28,10 @@
         android:layout_marginEnd="114dp"
         android:layout_marginStart="76dp"
         android:layout_marginTop="71dp"
+        android:fontFamily="@font/montserrat_alternates"
+        android:text="Name"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cipet"
         app:layout_constraintTop_toTopOf="parent" />
