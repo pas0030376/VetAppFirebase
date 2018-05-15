@@ -102,37 +102,9 @@ public class PerfilMascotaActivityFragment extends Fragment {
 
                 petImg = v.findViewById(R.id.petImg);
 
-               /*if (model.getImageURL() != null) {
-                    Glide.with(getContext())
-                            .load(storageRef.child(id + model.getNameAddPet() + ".jpg"))
-                            .into(petImg);
-                    Log.w("URL", String.valueOf(storageRef.child(id + model.getImageURL() + ".jpg")));
-                }else{
-                    Glide.with(getContext())
-                            .load("http://3.bp.blogspot.com/-PT0BXLSMNaU/UJA8pf0kHoI/AAAAAAAAEjY/Ko8m6RAj6Mw/s1600/20.jpg")
-                            .into(petImg);
-                }*/
+                String url = model.getImageURL();
+                Glide.with(getContext()).load(url).into(petImg);
 
-                /*StorageReference imagePath = storageRef.child(id+model.getNameAddPet()+".jpg");
-                Uri url = Uri.parse(imagePath.toString());
-                Log.i("PHOTO", url.toString());
-                imagePath.putFile(url).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Glide.with(getContext()).load(imagePath).into(petImg);
-                    }
-                });*/
-                storageRef.child(id+model.getNameAddPet()+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Log.w("STORAGE", uri.toString());
-                        Glide.with(getContext()).load(uri).into(petImg);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                    }
-                });
             }
         };
 
@@ -147,8 +119,11 @@ public class PerfilMascotaActivityFragment extends Fragment {
             }
         });
 
+
         return view;
     }
+
+
 }
 
 

@@ -57,10 +57,6 @@ public class addPetActivityFragment extends Fragment {
     FirebaseUser user = mAuth.getCurrentUser();
     String id = user.getUid().toString();
 
-
-
-    StorageReference mReference;
-
     StorageReference storageRef;
 
     private View view;
@@ -94,7 +90,8 @@ public class addPetActivityFragment extends Fragment {
         foto_gallery = view.findViewById(R.id.imageAddPet);
 
 
-        storageRef = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");
+        //storageRef = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");
+        storageRef = FirebaseStorage.getInstance().getReference();
 
         foto_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,37 +129,16 @@ public class addPetActivityFragment extends Fragment {
         String imageAddPet=nameAddPet+".jpg";
         String image = id+nameAddPet;
 
-        Pets pets = new Pets(nameAddPet, species, breed, bdateAddPet, genderAddPet, peso, edad, esterilizado, alergias, enfermedades,image);
-
-        mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
-        mDatabase = mRef.child(id).child(nameAddPet).setValue(pets);
-        if(contentURI != null) {
-            String nameImage = id+nameAddPet+".jpg";
-            StorageReference childRef = storageRef.child(nameImage);
-            UploadTask uploadTask = childRef.putFile(contentURI);
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(getContext(), "Carga exitosa", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getContext(), "Carga fallida -> " + e, Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-        else {
-            Toast.makeText(getContext(), "Selecciona una imagen", Toast.LENGTH_SHORT).show();
-        }
-
-
-
-
-        CharSequence text = "Pet added.";
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(getContext(), text, duration);
-        toast.show();
+        StorageReference filePath = storageRef.child(image);
+        filePath.putFile(contentURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(getContext(), "Carga exitosa", Toast.LENGTH_SHORT).show();
+                Pets pets = new Pets(nameAddPet, species, breed, bdateAddPet, genderAddPet, peso, edad, esterilizado, alergias, enfermedades,taskSnapshot.getDownloadUrl().toString());
+                mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
+                mDatabase = mRef.child(id).child(nameAddPet).setValue(pets);
+            }
+        });
     }
     private void showPictureDialog(){
 
@@ -207,9 +183,6 @@ public class addPetActivityFragment extends Fragment {
         if (resultCode == getActivity().RESULT_CANCELED) {
             return;
         }
-        if (resultCode == getActivity().RESULT_CANCELED) {
-            return;
-        }
         if (requestCode == GALLERY) {
             if (data != null) {
                 contentURI = data.getData();
@@ -228,7 +201,8 @@ public class addPetActivityFragment extends Fragment {
         } else if (requestCode == CAMERA) {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
             foto_gallery.setImageBitmap(thumbnail);
-            saveImage(thumbnail);
+            String path = saveImage(thumbnail);
+            contentURI = Uri.fromFile(new File(path));
             Toast.makeText(this.getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -261,98 +235,5 @@ public class addPetActivityFragment extends Fragment {
         }
         return "";
     }
-
-
-    /*
-    private void onCaptureImageResult(Intent data) {
-
-        foto_gallery.setDrawingCacheEnabled(true);
-        foto_gallery.buildDrawingCache();
-
-        final Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-
-
-        String nom = etName.getText().toString();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] item = baos.toByteArray();
-
-        mReference = storageRef.child(id+"_"+nom + ".jpg");
-        UploadTask uploadTask = mReference.putBytes(item);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Context context = getContext();
-                CharSequence text = "Picture not uploaded. Please try again.";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                foto_gallery.setImageBitmap(bitmap);
-                Context context = getContext();
-                CharSequence text = "Image saved.";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
-        });
-
-
-    }
-
-   @SuppressLint("RestrictedApi")
-    private void onSelectFromGalleryResult(Intent data) {
-        Bitmap bm=null;
-        if (data != null) {
-            try {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
-                bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] item = baos.toByteArray();
-
-                String nom = etName.getText().toString();
-
-
-                mReference = storageRef.child(id+"_"+nom + ".jpg");
-                UploadTask uploadTask = mReference.putBytes(item);
-                final Bitmap finalBm = bm;
-                uploadTask.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Context context = getContext();
-                        CharSequence text = "Picture not uploaded. Please try again.";
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                        foto_gallery.setImageBitmap(finalBm);
-                        Context context = getContext();
-                        CharSequence text = "Image saved.";
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-                    }
-                });
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        foto_gallery.setImageBitmap(bm);
-
-    }*/
 
 }

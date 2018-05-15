@@ -136,18 +136,8 @@ public class DetailPetActivityFragment extends Fragment {
         alergias.setText(allergy);
         bdate.setText(fechNac);
 
-        storageRef.child(id+pets.getNameAddPet()+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Log.w("STORAGE", uri.toString());
-                Glide.with(getContext()).load(uri).into(detailImg);
+        String url = pets.getImageURL();
+        Glide.with(getContext()).load(url).into(detailImg);
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-
-            }
-        });
     }
 }

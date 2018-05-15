@@ -85,7 +85,6 @@ public class AdopcionesAnadir extends AppCompatActivity {
 
         foto_gallery = (ImageView)findViewById(R.id.foto_gallery);
 
-        //mStorage = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");
         mStorage=FirebaseStorage.getInstance().getReference();
 
         foto_gallery.setOnClickListener(new View.OnClickListener() {
@@ -103,26 +102,6 @@ public class AdopcionesAnadir extends AppCompatActivity {
 
     }
 
-    /*private void writeAdoptedPet() {
-
-
-        String nom =etNombre.getText().toString();
-        String type = etTipoAnimal.getText().toString();
-        String desc = etDescripcion.getText().toString();
-        String telefono = etTelefono.getText().toString();
-        String city = etCiudad.getText().toString();
-        String pais=etPais.getText().toString();
-
-
-        Adopcion adopcion = new Adopcion(type, nom, city, pais, desc, telefono);
-        mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
-        mDatabase = mRef.child("Adoption").child(nom).setValue(adopcion);
-
-        CharSequence text = "Pet added.";
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(getApplicationContext(), text, duration);
-        toast.show();
-    }*/
     private void showPictureDialog(){
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
         pictureDialog.setTitle("Seleccione una opción");

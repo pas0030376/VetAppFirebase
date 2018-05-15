@@ -24,20 +24,14 @@
             android:id="@+id/nav_perfilMascota"
             android:icon="@drawable/perfil"
             android:title="Perfil Mascota" />
+        <item
+            android:id="@+id/nav_logOut"
+            android:icon="@drawable/logout"
+            android:title="Log out" />
 
     </group>
 
-    /*<item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_logOut"
-                android:icon="@drawable/logout"
-                android:title="Log out" />
-        </menu>
-    </item>*/
+    /*
+    */
 
 </menu>
