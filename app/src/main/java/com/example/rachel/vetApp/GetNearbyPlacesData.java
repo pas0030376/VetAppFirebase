@@ -59,11 +59,13 @@ public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
 
             String telefono = googlePlace.get("formatted_phone_number");
             String id = googlePlace.get("place_id");
+            Log.w("Id of place",id);
 
             Veterinarias vet = new Veterinarias(String.valueOf(lat),String.valueOf(lng),placeName,vicinity,telefono,id);
             //getUrl(vet,id);
 
-          // Log.w("Veterinaria blablabla", vet.toString());
+            Log.w("Veterinaria blablabla", vet.toString());
+            UpdateveterinariasList(vet,id);
 
             LatLng latLng = new LatLng(lat, lng);
             markerOptions.position(latLng);
