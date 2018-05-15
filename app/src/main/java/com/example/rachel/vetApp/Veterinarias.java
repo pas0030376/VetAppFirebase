@@ -1,24 +1,21 @@
 package com.example.rachel.vetApp;
 
 import java.io.Serializable;
-
-/**
- * Created by Vicky on 14/05/2018.
- */
-
 public class Veterinarias implements Serializable {
     private String lat;
     private String longi;
     private String name;
     private String vicinity;
     private String phone;
+    private String id;
 
-    public Veterinarias(String lat, String longi, String name, String vicinity, String phone) {
+    public Veterinarias(String lat, String longi, String name, String vicinity, String phone, String id) {
         this.lat = lat;
         this.longi = longi;
         this.name = name;
         this.vicinity = vicinity;
         this.phone = phone;
+        this.id = id;
     }
 
     public Veterinarias() {
@@ -73,5 +70,13 @@ public class Veterinarias implements Serializable {
                 ", vicinity='" + vicinity + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

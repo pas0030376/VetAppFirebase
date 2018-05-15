@@ -121,27 +121,28 @@ public class PedirCitaActivityFragment extends Fragment {
                 AddToCita(pets);
             }
         });
-
+        listvets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Veterinarias vet = (Veterinarias) adapterView.getItemAtPosition(i);
+                String id = vet.getId();
+                getUrlDetails(id);
+            }
+        });
         return view;
-
     }
 
     private void AddToCita(Pets pets) {
         pets.getNameAddPet();
-
     }
 
-    private String getUrl(double latitude, double longitude, String nearbyPlace) {
-        StringBuilder googlePlacesUrl = new
-                StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        googlePlacesUrl.append("location=" + latitude + "," + longitude);
-        googlePlacesUrl.append("&radius=" + 100000);
-        googlePlacesUrl.append("&type=" + nearbyPlace);
-        googlePlacesUrl.append("&sensor=true");
-        googlePlacesUrl.append("&key=" + "AIzaSyDIHLr2xsjP_3cOLCz1UU0Hir45B9KDykg");
-        return (googlePlacesUrl.toString());
+    private void getUrlDetails(String id) {
+        Object[] DataTransfer = new Object[1];
+        StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/details/json?");
+        googlePlacesUrl.append("placeid="+id+"&key=AIzaSyDIHLr2xsjP_3cOLCz1UU0Hir45B9KDykg");
+        String url = googlePlacesUrl.toString();
+        DataTransfer[0] = url;
+        GetDetailsData getDetailsData = new GetDetailsData();
+        getDetailsData.execute(DataTransfer);
     }
-
-
-
 }
