@@ -41,6 +41,7 @@ public class addSurgeryActivityFragment extends Fragment {
         final Spinner vacunas = view.findViewById(R.id.surgerySpinner);
         ArrayAdapter<CharSequence> adapterVacunas = ArrayAdapter.createFromResource(this.getContext(),R.array.Tipos_cirugias, android.R.layout.simple_spinner_item);
         adapterVacunas.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         vacunas.setAdapter(adapterVacunas);
 
         date.setOnClickListener(new View.OnClickListener() {

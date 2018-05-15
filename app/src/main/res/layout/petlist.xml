@@ -1,36 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <com.github.abdularis.civ.CircleImageView
         android:id="@+id/petImg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/perfil" />
+        android:layout_width="186dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="11dp"
+        android:background="@color/lighpink"
+        android:onClick="onClick"
+        android:src="@mipmap/ic_launcher_round"
+        app:strokeColor="@color/cardview_light_background" />
 
     <TextView
         android:id="@+id/petName"
-        android:layout_width="match_parent"
+        android:layout_width="142dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/anonymous_pro_bold"
         android:text="TextView"
         android:textAlignment="center"
         android:textColor="@android:color/black"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/petImg"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
         android:id="@+id/petBreed"
-        android:layout_width="match_parent"
+        android:layout_width="137dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/anonymous_pro_bold"
         android:text="TextView"
         android:textAlignment="center"
         android:textColor="@android:color/black"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/petImg"
+        app:layout_constraintTop_toBottomOf="@+id/petName" />
 
 
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
