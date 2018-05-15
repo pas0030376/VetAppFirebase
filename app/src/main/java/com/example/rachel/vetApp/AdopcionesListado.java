@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,9 +32,10 @@ import com.google.firebase.storage.StorageReference;
 
 public class AdopcionesListado extends AppCompatActivity {
 
-    Button btnAñadirAdopcion;
+    FloatingActionButton btnAñadirAdopcion;
     ListView lvAdopciones;
     ImageView imageViewAdopciones;
+
 
     FirebaseListAdapter<Adopcion> adapter;
     DatabaseReference query;
@@ -58,7 +60,7 @@ public class AdopcionesListado extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adopcioneslistado);
-        btnAñadirAdopcion=(Button)findViewById(R.id.btnAñadirAdopcion);
+        btnAñadirAdopcion=(FloatingActionButton)findViewById(R.id.btnAñadirAdopcion);
 
         btnAñadirAdopcion.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -55,6 +55,7 @@ dependencies {
     implementation 'com.asksira.android:dropdownview:0.9.2'
     compile 'com.github.MorochoRochaDarwin:OneCalendarView:3.1.1'
     compile 'com.jackandphantom.android:circularimageview:1.2.0'
+    compile 'com.github.abdularis:CircularImageView:v1.1'
 
 
 }
