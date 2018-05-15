@@ -1,23 +1,32 @@
 package com.example.rachel.vetApp;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.google.firebase.database.DatabaseError;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,11 +37,21 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
+
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class AdopcionesAnadir extends AppCompatActivity {
     EditText etTipoAnimal,etNombre,etDescripcion,etTelefono,etCiudad,etPais;
@@ -42,12 +61,10 @@ public class AdopcionesAnadir extends AppCompatActivity {
     private Task<Void> mDatabase;
     private static final String IMAGE_DIRECTORY = "/vetApp";
     private int GALLERY = 1, CAMERA = 2;
-    private Uri filePath;
+    private Uri contentURI;
 
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference storageRef = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");
-
 
 
     private StorageReference mStorage;
@@ -80,12 +97,11 @@ public class AdopcionesAnadir extends AppCompatActivity {
         btnPublicar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                guardarNuevaAdop();
+                guadarNuevaAdopcion();
             }
         });
 
     }
-
 
     /*private void writeAdoptedPet() {
 
@@ -100,52 +116,13 @@ public class AdopcionesAnadir extends AppCompatActivity {
 
         Adopcion adopcion = new Adopcion(type, nom, city, pais, desc, telefono);
         mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
-        mDatabase = mRef.child("Adopcion").child(nom).setValue(adopcion);
+        mDatabase = mRef.child("Adoption").child(nom).setValue(adopcion);
 
         CharSequence text = "Pet added.";
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(getApplicationContext(), text, duration);
         toast.show();
     }*/
-    private void guardarNuevaAdop() {
-        String nom = etNombre.getText().toString();
-        String type = etTipoAnimal.getText().toString();
-        String desc = etDescripcion.getText().toString();
-        String telefono = etTelefono.getText().toString();
-        String city = etCiudad.getText().toString();
-        String pais = etPais.getText().toString();
-        if (filePath != null) {
-            String nameImage = nom;
-            StorageReference childRef = storageRef.child(nameImage);
-            UploadTask uploadTask = childRef.putFile(filePath);
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(getApplicationContext(), "Carga exitosa", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getApplicationContext(), "Carga fallida -> " + e, Toast.LENGTH_SHORT).show();
-                }
-            });
-            //instancio adopcion
-            Adopcion adopcion = new Adopcion(type,nom, desc, telefono, city, pais);
-            mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
-            String mId = nom;
-            mDatabase = mRef.child("Adopcion").child(mId).setValue(adopcion);
-            CharSequence text = "Adopcioncita añadida correctamente";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(this, text, duration);
-            toast.show();
-
-
-        } else {
-            Toast.makeText(getApplicationContext(), "Selecciona una imagen", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
     private void showPictureDialog(){
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
         pictureDialog.setTitle("Seleccione una opción");
@@ -188,11 +165,10 @@ public class AdopcionesAnadir extends AppCompatActivity {
         }
         if (requestCode == GALLERY) {
             if (data != null) {
-
+                contentURI = data.getData();
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), filePath);
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
                     String path = saveImage(bitmap);
-                    Toast.makeText(this, "Image Saved!", Toast.LENGTH_SHORT).show();//***
                     foto_gallery.setImageBitmap(bitmap);
 
                 } catch (IOException e) {
@@ -203,11 +179,11 @@ public class AdopcionesAnadir extends AppCompatActivity {
 
         } else if (requestCode == CAMERA) {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-
             foto_gallery.setImageBitmap(thumbnail);
+            String path=saveImage(thumbnail);
+            //contentURI=Uri.parse(path);
+            contentURI=Uri.fromFile(new File(path));
 
-            //saveImage(thumbnail);
-            Toast.makeText(this, "Image Saved!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -240,7 +216,7 @@ public class AdopcionesAnadir extends AppCompatActivity {
         return "";
     }
 
-    /*private void guadarNuevaAdopcion(){
+    private void guadarNuevaAdopcion(){
         String nom =etNombre.getText().toString();
         String type = etTipoAnimal.getText().toString();
         String desc = etDescripcion.getText().toString();
@@ -248,13 +224,12 @@ public class AdopcionesAnadir extends AppCompatActivity {
         String city = etCiudad.getText().toString();
         String pais=etPais.getText().toString();
         //creamos la carpeta fotos dentro del storage de Firebase
-        StorageReference filePath2=mStorage.child("fotos"+filePath.getLastPathSegment());
-        //StorageReference filePath=mStorage.child("fotos"+contentURI.get
-        filePath2.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        StorageReference filePath=mStorage.child("fotos"+contentURI.getLastPathSegment());
+        filePath.putFile(contentURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(AdopcionesAnadir.this,"Se subio exitosamente la foto",Toast.LENGTH_LONG).show();
-                Adopcion adopcion =new Adopcion(type,nom,desc,telefono,city,pais);
+                Toast.makeText(AdopcionesAnadir.this,"Adopción creada correctamente",Toast.LENGTH_LONG).show();
+                Adopcion adopcion=new Adopcion(type,nom,desc,telefono,city,pais,taskSnapshot.getDownloadUrl().toString());
                 //Guardo la clase en firebase database
                 mRef =  FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
                 String mId = nom;
@@ -265,7 +240,7 @@ public class AdopcionesAnadir extends AppCompatActivity {
         });
 
 
-    }*/
+    }
 
 
 
