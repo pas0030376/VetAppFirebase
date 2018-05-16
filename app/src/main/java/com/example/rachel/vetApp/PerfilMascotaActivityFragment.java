@@ -75,7 +75,7 @@ public class PerfilMascotaActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_perfil_mascota, container, false);
 
-        /*FloatingActionButton addPet = view.findViewById(R.id.afegirPet);
+        FloatingActionButton addPet = view.findViewById(R.id.afegirPet);
         addPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,9 +83,9 @@ public class PerfilMascotaActivityFragment extends Fragment {
                 startActivity(intent);
 
             }
-        });*/
+        });
 
-        MultiChoicesCircleButton.Item item1 = new MultiChoicesCircleButton.Item("Añadir mascota", getResources().getDrawable(R.drawable.add), 60);
+        /*MultiChoicesCircleButton.Item item1 = new MultiChoicesCircleButton.Item("Añadir mascota", getResources().getDrawable(R.drawable.add), 60);
         MultiChoicesCircleButton.Item item2 = new MultiChoicesCircleButton.Item("Ver vacunas/cirugías", getResources().getDrawable(R.drawable.afegirsurgery), 120);
 
         List<MultiChoicesCircleButton.Item> buttonItems = new ArrayList<>();
@@ -107,7 +107,7 @@ public class PerfilMascotaActivityFragment extends Fragment {
                     startActivity(CancelarIntent); }
 
             }
-        });
+        });*/
 
 
         petList = view.findViewById(R.id.petList);
