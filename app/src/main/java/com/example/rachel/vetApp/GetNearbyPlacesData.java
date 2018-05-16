@@ -61,11 +61,13 @@ public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
             String id = googlePlace.get("place_id");
             Log.w("Id of place",id);
 
-            Veterinarias vet = new Veterinarias(String.valueOf(lat),String.valueOf(lng),placeName,vicinity,telefono,id);
-            //getUrl(vet,id);
-
-            Log.w("Veterinaria blablabla", vet.toString());
-            UpdateveterinariasList(vet,id);
+            Object[] DataTransfer = new Object[1];
+            StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/details/json?");
+            googlePlacesUrl.append("placeid="+id+"&key=AIzaSyDIHLr2xsjP_3cOLCz1UU0Hir45B9KDykg");
+            String url = googlePlacesUrl.toString();
+            DataTransfer[0] = url;
+            GetDetailsData getDetailsData = new GetDetailsData();
+            getDetailsData.execute(DataTransfer);
 
             LatLng latLng = new LatLng(lat, lng);
             markerOptions.position(latLng);
@@ -75,13 +77,8 @@ public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
 
             //move map camera
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         }
-    }
-
-    private void UpdateveterinariasList(Veterinarias vet, String id) {
-        mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
-        mDatabase = mRef.child("Veterinarias").child(id).setValue(vet);
     }
 
 }

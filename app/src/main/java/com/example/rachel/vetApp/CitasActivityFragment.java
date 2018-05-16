@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CitasActivityFragment extends Fragment {
-
-
     public CitasActivityFragment() {
     }
 
@@ -22,6 +20,7 @@ public class CitasActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        View view = inflater.inflate(R.layout.fragment_citas, container, false);
+       getActivity().setTitle("Citas");
 
         MultiChoicesCircleButton.Item item1 = new MultiChoicesCircleButton.Item("Pedir Cita", getResources().getDrawable(R.drawable.icondate), 60);
         MultiChoicesCircleButton.Item item2 = new MultiChoicesCircleButton.Item("Cancelar Cita", getResources().getDrawable(R.drawable.iconcancel), 120);

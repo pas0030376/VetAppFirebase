@@ -18,6 +18,13 @@ public class Veterinarias implements Serializable {
         this.id = id;
     }
 
+    public Veterinarias(String name, String vicinity, String phone, String id) {
+        this.name = name;
+        this.vicinity = vicinity;
+        this.phone = phone;
+        this.id = id;
+    }
+
     public Veterinarias() {
     }
 

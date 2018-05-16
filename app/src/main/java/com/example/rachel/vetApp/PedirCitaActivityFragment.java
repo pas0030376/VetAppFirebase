@@ -1,13 +1,18 @@
 package com.example.rachel.vetApp;
 
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
+import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,22 +28,26 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.jackandphantom.circularimageview.CircleImage;
 
+import java.util.Calendar;
 
 
 public class PedirCitaActivityFragment extends Fragment {
-
     ListView list;
     ListView listvets;
     FirebaseListAdapter<Pets> adapter;
     DatabaseReference query;
-    FirebaseListOptions<Pets> options;
+    TextView mascota;
+    TextView vet;
+    TextView telefono;
+    TextView choose;
+        FirebaseListOptions<Pets> options;
+    View view;
 
     FirebaseListAdapter<Veterinarias> adaptervet;
     DatabaseReference queryvet;
     FirebaseListOptions<Veterinarias> optionsvet;
+    static TextInputEditText dateCita;
 
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference storageRef = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");;
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user = mAuth.getCurrentUser();
@@ -60,7 +69,21 @@ public class PedirCitaActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_pedir_cita, container, false);
+        view =  inflater.inflate(R.layout.fragment_pedir_cita, container, false);
+        getActivity().setTitle("Pide una cita");
+        mascota = view.findViewById(R.id.tvMascotaCita);
+        vet = view.findViewById(R.id.tvCitaVet);
+        telefono = view.findViewById(R.id.tvphone);
+        choose = view.findViewById(R.id.tvChoose);
+        dateCita = view.findViewById(R.id.etfechaCita);
+
+        if (mascota == null){
+        mascota.setVisibility(View.GONE);
+        }
+        if (vet == null){
+            vet.setVisibility(View.GONE);
+            telefono.setVisibility(View.GONE);
+        }
 
         list = view.findViewById(R.id.lvmypets);
         listvets = view.findViewById(R.id.lvVeterinarias);
@@ -82,16 +105,8 @@ public class PedirCitaActivityFragment extends Fragment {
 
                 petName.setText(model.getNameAddPet());
 
-                String url = id + model.getNameAddPet() + ".jpg";
-                if (model.getPetlistImg() != null) {
-                    Glide.with(getContext())
-                            .load(storageRef.child(url))
-                            .into(photo);
-                }else{
-                    Glide.with(getContext())
-                            .load("http://3.bp.blogspot.com/-PT0BXLSMNaU/UJA8pf0kHoI/AAAAAAAAEjY/Ko8m6RAj6Mw/s1600/20.jpg")
-                            .into(photo);
-                }
+                String url = model.getImageURL();
+                Glide.with(getContext()).load(url).into(photo);
             }
         };
 
@@ -125,24 +140,57 @@ public class PedirCitaActivityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Veterinarias vet = (Veterinarias) adapterView.getItemAtPosition(i);
-                String id = vet.getId();
-                getUrlDetails(id);
+                Veterinarias vetDetails = (Veterinarias) adapterView.getItemAtPosition(i);
+                AddVetToCita(vetDetails);
+            }
+        });
+
+
+        dateCita.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new SelectDateFragment();
+                newFragment.show(getFragmentManager(), "DatePicker");
             }
         });
         return view;
     }
 
-    private void AddToCita(Pets pets) {
-        pets.getNameAddPet();
+    private void AddVetToCita(Veterinarias vetDetails) {
+        vetDetails.getPhone();
+        vet = view.findViewById(R.id.tvCitaVet);
+        telefono = view.findViewById(R.id.tvphone);
+        vet.setText(vetDetails.getName());
+        telefono.setText(vetDetails.getPhone());
+        listvets.setVisibility(View.GONE);
+
     }
 
-    private void getUrlDetails(String id) {
-        Object[] DataTransfer = new Object[1];
-        StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/details/json?");
-        googlePlacesUrl.append("placeid="+id+"&key=AIzaSyDIHLr2xsjP_3cOLCz1UU0Hir45B9KDykg");
-        String url = googlePlacesUrl.toString();
-        DataTransfer[0] = url;
-        GetDetailsData getDetailsData = new GetDetailsData();
-        getDetailsData.execute(DataTransfer);
+    private void AddToCita(Pets pets) {
+      pets.getNameAddPet();
+      mascota = view.findViewById(R.id.tvMascotaCita);
+      mascota.setText(pets.getNameAddPet());
+
+      list.setVisibility(View.GONE);
     }
+
+    public static class SelectDateFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final Calendar calendar = Calendar.getInstance();
+            int yy = calendar.get(Calendar.YEAR);
+            int mm = calendar.get(Calendar.MONTH);
+            int dd = calendar.get(Calendar.DAY_OF_MONTH);
+            return new DatePickerDialog(getActivity(), this, yy, mm, dd);
+        }
+
+        public void onDateSet(DatePicker view, int yy, int mm, int dd) {
+            populateSetDate(yy, mm, dd);
+        }
+
+        public void populateSetDate(int year, int month, int day) {
+            dateCita.setText(day + "/" + month + "/" + year);
+        }
+    }
+
 }
