@@ -11,7 +11,7 @@
     android:background="@color/lighpink"
     tools:showIn="@layout/activity_perfil_mascota">
 
-    <com.gjiazhe.multichoicescirclebutton.MultiChoicesCircleButton
+    <!--<com.gjiazhe.multichoicescirclebutton.MultiChoicesCircleButton
         android:id="@+id/multiChoicesPerfil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         app:mccb_expandRadius="120dp"
         app:mccb_icon="@drawable/iconvet"
         app:mccb_text="Añadir mascota o Ver vacunas/cirugías"
-        app:mccb_textSize="20sp" />
+        app:mccb_textSize="20sp" />-->
 
     <ListView
         android:id="@+id/petList"
@@ -40,6 +40,26 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/afegirPet"
+        android:layout_width="82dp"
+        android:layout_height="122dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="244dp"
+        android:clickable="true"
+        android:src="@drawable/add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="345dp" />
 
 
 </android.support.constraint.ConstraintLayout>
