@@ -1,24 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lighpink"
     tools:context="com.example.rachel.vetApp.DetailPetActivityFragment"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="137dp"
-    android:background="@color/lighpink"
     tools:showIn="@layout/activity_detail_pet">
+
 
     <com.gjiazhe.multichoicescirclebutton.MultiChoicesCircleButton
         android:id="@+id/multiChoicesPetDetails"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/multi_choices_circle_button_behavior"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:mccb_buttonColor="@color/colorAccent"
         app:mccb_collapseRadius="40dp"
         app:mccb_expandRadius="120dp"
@@ -26,7 +28,7 @@
         app:mccb_text="Añadir vacunas o Añadir cirugías"
         app:mccb_textSize="20sp" />
 
-    <com.github.abdularis.civ.CircleImageView
+    <com.jackandphantom.circularimageview.CircleImage
         android:id="@+id/detailImg"
         android:layout_width="186dp"
         android:layout_height="160dp"
@@ -122,7 +124,7 @@
         android:layout_width="137dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="56dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="4dp"
         android:text="Fecha de nacimiento:"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailImg" />
@@ -131,7 +133,7 @@
         android:id="@+id/detailBdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="@font/anonymous_pro_bold"
         android:text="TextView"
         android:textSize="18sp"
@@ -147,7 +149,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:text="Raza:"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -159,13 +161,13 @@
         android:layout_height="17dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/anonymous_pro_bold"
         android:text="TextView"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintHorizontal_bias="0.57"
         app:layout_constraintStart_toEndOf="@+id/textView24"
         app:layout_constraintTop_toBottomOf="@+id/detailBdate" />
 
@@ -187,13 +189,13 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/anonymous_pro_bold"
         android:text="TextView"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.569"
+        app:layout_constraintHorizontal_bias="0.568"
         app:layout_constraintStart_toEndOf="@+id/textView26"
         app:layout_constraintTop_toBottomOf="@+id/detailRaza" />
 
@@ -215,13 +217,13 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/anonymous_pro_bold"
         android:text="TextView"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.569"
+        app:layout_constraintHorizontal_bias="0.568"
         app:layout_constraintStart_toEndOf="@+id/textView28"
         app:layout_constraintTop_toBottomOf="@+id/detailEdad" />
 
@@ -230,11 +232,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="31dp"
         android:layout_marginTop="16dp"
         android:text="Esterilizado:"
         app:layout_constraintEnd_toStartOf="@+id/detailEsterilizado"
-        app:layout_constraintHorizontal_bias="0.216"
+        app:layout_constraintHorizontal_bias="0.201"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView28" />
 
@@ -242,8 +244,8 @@
         android:id="@+id/detailEsterilizado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="112dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/anonymous_pro_bold"
         android:text="TextView"
         android:textSize="18sp"
@@ -256,11 +258,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
         android:text="Alergias:"
         app:layout_constraintEnd_toStartOf="@+id/detailAlergias"
-        app:layout_constraintHorizontal_bias="0.149"
+        app:layout_constraintHorizontal_bias="0.118"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView30" />
 
@@ -268,7 +270,7 @@
         android:id="@+id/detailAlergias"
         android:layout_width="wrap_content"
         android:layout_height="18dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginEnd="112dp"
         android:layout_marginTop="14dp"
         android:fontFamily="@font/anonymous_pro_bold"
         android:text="TextView"
@@ -282,31 +284,51 @@
         android:layout_width="wrap_content"
         android:layout_height="16dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="56dp"
         android:layout_marginTop="16dp"
         android:text="Enfermedades:"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/detailEnfermedades"
-        app:layout_constraintHorizontal_bias="0.257"
+        app:layout_constraintBottom_toTopOf="@+id/surgeryList"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView33"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/detailEnfermedades"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="84dp"
+        android:layout_height="19dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginEnd="112dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="18dp"
         android:fontFamily="@font/anonymous_pro_bold"
         android:text="TextView"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/surgeryList"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView35"
         app:layout_constraintTop_toBottomOf="@+id/detailAlergias"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ListView
+        android:id="@+id/surgeryList"
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="356dp" />
 
 </android.support.constraint.ConstraintLayout>

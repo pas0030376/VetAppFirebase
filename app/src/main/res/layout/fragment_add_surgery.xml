@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:focusable="false"
-        android:hint="Fecha de Vacuna"
+        android:hint="Fecha de cirugías"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
@@ -76,7 +76,7 @@
         android:layout_marginTop="8dp"
         android:focusable="false"
         android:hint="Observaciones"
-        app:layout_constraintBottom_toTopOf="@+id/button5"
+        app:layout_constraintBottom_toTopOf="@+id/btnGuardar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout8"
@@ -91,7 +91,7 @@
 
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/btnGuardar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"

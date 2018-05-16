@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -33,9 +35,7 @@ import java.util.List;
  */
 public class DetailPetActivityFragment extends Fragment {
 
-    FirebaseListAdapter<Pets> adapter;
-    DatabaseReference query;
-    FirebaseListOptions<Pets> options;
+
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");;
@@ -47,15 +47,37 @@ public class DetailPetActivityFragment extends Fragment {
     TextView name, especie, edad, raza, peso, enfermedades, esterilizado, bdate, sexo, alergias;
     ImageView detailImg;
 
+    View view;
+
+    Pets pets;
+
     public DetailPetActivityFragment() {
     }
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_detail_pet, container, false);
+        view = inflater.inflate(R.layout.fragment_detail_pet, container, false);
 
         getActivity().setTitle("Perfil de Mascota");
+        Intent i = getActivity().getIntent();
+        pets = (Pets) i.getSerializableExtra("pets");
+
+        name = view.findViewById(R.id.detailNamePet);
+        especie = view.findViewById(R.id.detailEspecie);
+        edad = view.findViewById(R.id.detailEdad);
+        raza = view.findViewById(R.id.detailRaza);
+        peso = view.findViewById(R.id.detailPeso);
+        enfermedades = view.findViewById(R.id.detailEnfermedades);
+        esterilizado = view.findViewById(R.id.detailEsterilizado);
+        bdate = view.findViewById(R.id.detailBdate);
+        sexo = view.findViewById(R.id.detailSexo);
+        alergias = view.findViewById(R.id.detailAlergias);
+
+        detailImg = view.findViewById(R.id.detailImg);
 
         MultiChoicesCircleButton.Item item1 = new MultiChoicesCircleButton.Item("Añadir vacunas", getResources().getDrawable(R.drawable.afegirvacuna), 60);
         MultiChoicesCircleButton.Item item2 = new MultiChoicesCircleButton.Item("Añadir cirugías", getResources().getDrawable(R.drawable.afegirsurgery), 120);
@@ -71,13 +93,17 @@ public class DetailPetActivityFragment extends Fragment {
         multiChoicesCircleButton.setOnSelectedItemListener(new MultiChoicesCircleButton.OnSelectedItemListener() {
             @Override
             public void onSelected(MultiChoicesCircleButton.Item item, int index) {
-                switch (item.getText()) {
+                switch (item.getText().trim()) {
                     case "Añadir vacunas":
                         Intent i = new Intent(getContext(), addVacunasActivity.class);
                         startActivity(i);
                         break;
                     case "Añadir cirugías":
-                        startActivity( new Intent(getContext(), addSurgeryActivity.class));
+                        Intent intent = new Intent(getContext(), addSurgeryActivity.class);
+                        String nom = pets.getNameAddPet().toString();
+                        intent.putExtra("petName", nom);
+                        Log.i("PET NAME", nom);
+                        startActivity(intent);
                         break;
 
                     default:
@@ -87,26 +113,14 @@ public class DetailPetActivityFragment extends Fragment {
             }
         });
 
-        name = view.findViewById(R.id.detailNamePet);
-        especie = view.findViewById(R.id.detailEspecie);
-        edad = view.findViewById(R.id.detailEdad);
-        raza = view.findViewById(R.id.detailRaza);
-        peso = view.findViewById(R.id.detailPeso);
-        enfermedades = view.findViewById(R.id.detailEnfermedades);
-        esterilizado = view.findViewById(R.id.detailEsterilizado);
-        bdate = view.findViewById(R.id.detailBdate);
-        sexo = view.findViewById(R.id.detailSexo);
-        alergias = view.findViewById(R.id.detailAlergias);
 
-        detailImg = view.findViewById(R.id.detailImg);
 
-        Intent i = getActivity().getIntent();
         if (i != null) {
-            Pets pets = (Pets) i.getSerializableExtra("pets");
             if (pets != null) {
                 mostrarMascotas(pets);
             }
         }
+
 
 
         return view;

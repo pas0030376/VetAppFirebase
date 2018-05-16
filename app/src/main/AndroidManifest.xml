@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.rachel.vetApp">
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -169,6 +170,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.rachel.vetApp.CitasActivity" />
         </activity>
+        <activity
+            android:name=".ListVacunasCirugiasActivity"
+            android:label="@string/title_activity_list_vacunas_cirugias"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

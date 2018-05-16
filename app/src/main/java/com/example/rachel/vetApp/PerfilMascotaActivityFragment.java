@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.gjiazhe.multichoicescirclebutton.MultiChoicesCircleButton;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +30,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -71,7 +75,7 @@ public class PerfilMascotaActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_perfil_mascota, container, false);
 
-        FloatingActionButton addPet = view.findViewById(R.id.afegirPet);
+        /*FloatingActionButton addPet = view.findViewById(R.id.afegirPet);
         addPet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,7 +83,32 @@ public class PerfilMascotaActivityFragment extends Fragment {
                 startActivity(intent);
 
             }
+        });*/
+
+        MultiChoicesCircleButton.Item item1 = new MultiChoicesCircleButton.Item("Añadir mascota", getResources().getDrawable(R.drawable.add), 60);
+        MultiChoicesCircleButton.Item item2 = new MultiChoicesCircleButton.Item("Ver vacunas/cirugías", getResources().getDrawable(R.drawable.afegirsurgery), 120);
+
+        List<MultiChoicesCircleButton.Item> buttonItems = new ArrayList<>();
+        buttonItems.add(item1);
+        buttonItems.add(item2);
+
+
+        MultiChoicesCircleButton multiChoicesCircleButton = view.findViewById(R.id.multiChoicesPerfil);
+        multiChoicesCircleButton.setButtonItems(buttonItems);
+
+        multiChoicesCircleButton.setOnSelectedItemListener(new MultiChoicesCircleButton.OnSelectedItemListener() {
+            @Override
+            public void onSelected(MultiChoicesCircleButton.Item item, int index) {
+                if (item.getText().equals("Añadir mascota")){
+                    Intent pedirIntent = new Intent(getContext(), addPetActivity.class);
+                    startActivity(pedirIntent); }
+                else if (item.getText().equals("Ver vacunas/cirugías")){
+                    Intent CancelarIntent = new Intent(getContext(), ListVacunasCirugiasActivityFragment.class);
+                    startActivity(CancelarIntent); }
+
+            }
         });
+
 
         petList = view.findViewById(R.id.petList);
 

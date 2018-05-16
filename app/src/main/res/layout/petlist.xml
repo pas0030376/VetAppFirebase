@@ -5,13 +5,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.github.abdularis.civ.CircleImageView
+    <com.jackandphantom.circularimageview.CircleImage
         android:id="@+id/petImg"
         android:layout_width="186dp"
         android:layout_height="160dp"
         android:layout_marginTop="11dp"
         android:background="@color/lighpink"
-        android:onClick="onClick"
         android:src="@mipmap/ic_launcher_round"
         app:strokeColor="@color/cardview_light_background" />
 

@@ -1,18 +1,23 @@
 package com.example.rachel.vetApp;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -42,7 +47,7 @@ import java.util.Calendar;
  */
 public class addPetActivityFragment extends Fragment {
 
-    EditText etName, etSpecies, etBreed, etGender, etBirthdate, etPeso, etEdad, etEsterilizado, etAlergias, etEnfermedades;
+    EditText etName, etSpecies, etBreed, etGender, etPeso, etEdad, etEsterilizado, etAlergias, etEnfermedades;
     Button btnSavePet;
     ImageView foto_gallery;
     private Uri contentURI;
@@ -58,6 +63,7 @@ public class addPetActivityFragment extends Fragment {
     String id = user.getUid().toString();
 
     StorageReference storageRef;
+    static TextInputEditText etBirthdate;
 
     private View view;
 
@@ -90,7 +96,14 @@ public class addPetActivityFragment extends Fragment {
         foto_gallery = view.findViewById(R.id.imageAddPet);
 
 
-        //storageRef = storage.getReferenceFromUrl("gs://vetapp-98f0d.appspot.com/");
+        etBirthdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new SelectDateFragment();
+                newFragment.show(getFragmentManager(), "DatePicker");
+            }
+        });
+
         storageRef = FirebaseStorage.getInstance().getReference();
 
         foto_gallery.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +125,27 @@ public class addPetActivityFragment extends Fragment {
 
         return view;
     }
+
+    public static class SelectDateFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final Calendar calendar = Calendar.getInstance();
+            int yy = calendar.get(Calendar.YEAR);
+            int mm = calendar.get(Calendar.MONTH);
+            int dd = calendar.get(Calendar.DAY_OF_MONTH);
+            return new DatePickerDialog(getActivity(), this, yy, mm, dd);
+        }
+
+        public void onDateSet(DatePicker view, int yy, int mm, int dd) {
+            populateSetDate(yy, mm, dd);
+        }
+        public void populateSetDate(int year, int month, int day) {
+            etBirthdate.setText(day+"/"+month+"/"+year);
+        }
+
+
+    }
+
 
 
     private void writeNewPet(String id) {
@@ -137,6 +171,8 @@ public class addPetActivityFragment extends Fragment {
                 Pets pets = new Pets(nameAddPet, species, breed, bdateAddPet, genderAddPet, peso, edad, esterilizado, alergias, enfermedades,taskSnapshot.getDownloadUrl().toString());
                 mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
                 mDatabase = mRef.child(id).child(nameAddPet).setValue(pets);
+                Intent i = new Intent(getContext(), PerfilMascotaActivity.class);
+                startActivity(i);
             }
         });
     }
@@ -145,7 +181,7 @@ public class addPetActivityFragment extends Fragment {
 
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this.getContext());
 
-        pictureDialog.setTitle("Seleccione una opción");
+        pictureDialog.setTitle("Seleccionar");
         String[] pictureDialogItems = {
                 "Seleccionar foto desde galería",
                 "Hacer foto" };
