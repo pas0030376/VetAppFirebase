@@ -105,10 +105,8 @@ public class PerfilMascotaActivityFragment extends Fragment {
                 else if (item.getText().equals("Ver vacunas/cirugías")){
                     Intent CancelarIntent = new Intent(getContext(), ListVacunasCirugiasActivityFragment.class);
                     startActivity(CancelarIntent); }
-
             }
         });
-
 
         petList = view.findViewById(R.id.petList);
 

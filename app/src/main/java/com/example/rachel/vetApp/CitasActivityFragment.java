@@ -97,10 +97,6 @@ public class CitasActivityFragment extends Fragment {
 
         dates.setAdapter(adapter);
 
-
-
-
-
         MultiChoicesCircleButton.Item item1 = new MultiChoicesCircleButton.Item("Pedir Cita", getResources().getDrawable(R.drawable.icondate), 60);
         MultiChoicesCircleButton.Item item2 = new MultiChoicesCircleButton.Item("Cancelar Cita", getResources().getDrawable(R.drawable.iconcancel), 120);
 
