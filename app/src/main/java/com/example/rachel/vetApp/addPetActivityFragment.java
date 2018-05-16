@@ -61,19 +61,13 @@ public class addPetActivityFragment extends Fragment {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user = mAuth.getCurrentUser();
     String id = user.getUid().toString();
-
     StorageReference storageRef;
+
     static TextInputEditText etBirthdate;
-
     private View view;
-
-
-
 
     public addPetActivityFragment() {
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
