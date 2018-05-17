@@ -1,7 +1,9 @@
 package com.example.rachel.vetApp;
 
 
-public class Adopcion {
+import java.io.Serializable;
+
+public class Adopcion implements Serializable{
     private String tipoAnimal;
     private String nombre;
     private String ciudad;
@@ -9,16 +11,19 @@ public class Adopcion {
     private String desc;
     private String telefono;
     private String url;
+    private String refugio;
+    private String email;
 
-    public Adopcion(String tipoAnimal, String nombre, String desc, String telefono, String ciudad, String pais,String url) {
-        this.tipoAnimal=tipoAnimal;
+    public Adopcion(String tipoAnimal, String nombre, String ciudad, String pais, String desc, String telefono, String url, String refugio, String email) {
+        this.tipoAnimal = tipoAnimal;
         this.nombre = nombre;
-        this.desc=desc;
-        this.telefono=telefono;
         this.ciudad = ciudad;
         this.pais = pais;
-        this.url=url;
-
+        this.desc = desc;
+        this.telefono = telefono;
+        this.url = url;
+        this.refugio = refugio;
+        this.email = email;
     }
 
     public Adopcion() {}
@@ -81,8 +86,19 @@ public class Adopcion {
         this.url = url;
     }
 
+    public String getRefugio() {
+        return refugio;
+    }
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setRefugio(String refugio) {
+        this.refugio = refugio;
+    }
 
-
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

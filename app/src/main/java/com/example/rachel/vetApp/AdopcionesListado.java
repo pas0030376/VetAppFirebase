@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -35,7 +36,7 @@ public class AdopcionesListado extends AppCompatActivity {
     FloatingActionButton btnAñadirAdopcion;
     ListView lvAdopciones;
     ImageView imageViewAdopciones;
-
+    Adopcion adopcion=null;
 
     FirebaseListAdapter<Adopcion> adapter;
     DatabaseReference query;
@@ -97,12 +98,22 @@ public class AdopcionesListado extends AppCompatActivity {
                 imageViewAdopciones = v.findViewById(R.id.fotito);
                 String imagenString=model.getUrl();
                 Glide.with(getApplicationContext()).load(imagenString).into(imageViewAdopciones);
-
+                adopcion=new Adopcion(model.getTipoAnimal(),model.getNombre(),model.getCiudad(),model.getPais(),model.getDesc(),model.getTelefono(),model.getUrl(),model.getRefugio(),model.getEmail());
 
             }
         };
 
         lvAdopciones.setAdapter(adapter);
+        lvAdopciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Adopcion adopcion=(Adopcion)adapterView.getItemAtPosition(position);
+                Intent intent=new Intent(getApplicationContext(),DetallesAdopcion.class);
+                intent.putExtra("adopcion",adopcion);
+                startActivity(intent);
+            }
+        });
+
 
     }
 

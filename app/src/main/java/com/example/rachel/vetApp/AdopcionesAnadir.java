@@ -11,12 +11,14 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.media.Image;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -54,8 +56,8 @@ import java.util.Calendar;
 import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class AdopcionesAnadir extends AppCompatActivity {
-    EditText etTipoAnimal,etNombre,etDescripcion,etTelefono,etCiudad,etPais;
-    Button btnPublicar;
+    EditText etTipoAnimal,etNombre,etDescripcion,etTelefono,etRefugio,etEmail,etCiudad,etPais;
+    FloatingActionButton btnPublicar;
     ImageView foto_gallery;
     private DatabaseReference mRef;
     private Task<Void> mDatabase;
@@ -79,9 +81,11 @@ public class AdopcionesAnadir extends AppCompatActivity {
         etNombre = (EditText) findViewById(R.id.etNombre);
         etDescripcion = (EditText) findViewById(R.id.etDescripcion);
         etTelefono = (EditText) findViewById(R.id.etTelefono);
+        etRefugio = (EditText) findViewById(R.id.etRefugio);
+        etEmail = (EditText) findViewById(R.id.etEmail);
         etCiudad = (EditText) findViewById(R.id.etCiudad);
         etPais = (EditText) findViewById(R.id.etPais);
-        btnPublicar = (Button)findViewById(R.id.btnPublicar);
+        btnPublicar = (FloatingActionButton) findViewById(R.id.btnPublicar);
 
         foto_gallery = (ImageView)findViewById(R.id.foto_gallery);
 
@@ -200,6 +204,8 @@ public class AdopcionesAnadir extends AppCompatActivity {
         String type = etTipoAnimal.getText().toString();
         String desc = etDescripcion.getText().toString();
         String telefono = etTelefono.getText().toString();
+        String refugio=etRefugio.getText().toString();
+        String email=etEmail.getText().toString();
         String city = etCiudad.getText().toString();
         String pais=etPais.getText().toString();
         //creamos la carpeta fotos dentro del storage de Firebase
@@ -208,7 +214,7 @@ public class AdopcionesAnadir extends AppCompatActivity {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Toast.makeText(AdopcionesAnadir.this,"Adopción creada correctamente",Toast.LENGTH_LONG).show();
-                Adopcion adopcion=new Adopcion(type,nom,desc,telefono,city,pais,taskSnapshot.getDownloadUrl().toString());
+                Adopcion adopcion=new Adopcion(type,nom,desc,telefono,city,pais,taskSnapshot.getDownloadUrl().toString(),refugio,email);
                 //Guardo la clase en firebase database
                 mRef =  FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
                 String mId = nom;
