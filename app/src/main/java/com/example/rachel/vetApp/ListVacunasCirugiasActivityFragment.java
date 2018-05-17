@@ -69,7 +69,9 @@ public class ListVacunasCirugiasActivityFragment extends Fragment {
                 TextView vet = v.findViewById(R.id.vetSurgery);
                 TextView fecha = v.findViewById(R.id.fechaSurgery);
                 TextView observaciones = v.findViewById(R.id.observacionesSurgery);
+                TextView nom = v.findViewById(R.id.nomPet);
 
+                nom.setText(model.getPetName());
                 tipo.setText(model.getTipo());
                 vet.setText(model.getVet());
                 fecha.setText(model.getFecha());
