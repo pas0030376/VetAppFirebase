@@ -5,13 +5,13 @@
     android:id="@+id/mascotaList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lighpink"
     tools:context="com.example.rachel.vetApp.PerfilMascotaActivityFragment"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="137dp"
-    android:background="@color/lighpink"
     tools:showIn="@layout/activity_perfil_mascota">
 
-    <!--<com.gjiazhe.multichoicescirclebutton.MultiChoicesCircleButton
+    <com.gjiazhe.multichoicescirclebutton.MultiChoicesCircleButton
         android:id="@+id/multiChoicesPerfil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,20 +27,20 @@
         app:mccb_expandRadius="120dp"
         app:mccb_icon="@drawable/iconvet"
         app:mccb_text="Añadir mascota o Ver vacunas/cirugías"
-        app:mccb_textSize="20sp" />-->
+        app:mccb_textSize="20sp" />
 
     <ListView
         android:id="@+id/petList"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.design.widget.FloatingActionButton
+    <!--<android.support.design.widget.FloatingActionButton
         android:id="@+id/afegirPet"
         android:layout_width="82dp"
         android:layout_height="122dp"
@@ -52,7 +52,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />-->
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
@@ -60,6 +60,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="345dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.91" />
 
 
 </android.support.constraint.ConstraintLayout>
