@@ -49,5 +49,6 @@
     </string-array>
     <string name="title_activity_citas_detail">CitasDetailActivity</string>
     <string name="title_activity_pedir_cita">PedirCitaActivity</string>
+    <string name="title_activity_list_vacunas_cirugias">ListVacunasCirugiasActivity</string>
 
 </resources>

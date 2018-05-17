@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,14 +22,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.jackandphantom.circularimageview.CircleImage;
-
 import java.util.Calendar;
 
 
@@ -40,18 +40,22 @@ public class PedirCitaActivityFragment extends Fragment {
     TextView vet;
     TextView telefono;
     TextView choose;
-        FirebaseListOptions<Pets> options;
+    TextView idvet;
+    FirebaseListOptions<Pets> options;
     View view;
 
     FirebaseListAdapter<Veterinarias> adaptervet;
     DatabaseReference queryvet;
     FirebaseListOptions<Veterinarias> optionsvet;
     static TextInputEditText dateCita;
-
-
+    DatabaseReference mRef;
+    Task<Void> mDatabase;
+    StorageReference storageRef;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user = mAuth.getCurrentUser();
     String id = user.getUid().toString();
+    Button save;
+    Button cancel;
 
     @Override
     public void onStart() {
@@ -76,7 +80,11 @@ public class PedirCitaActivityFragment extends Fragment {
         telefono = view.findViewById(R.id.tvphone);
         choose = view.findViewById(R.id.tvChoose);
         dateCita = view.findViewById(R.id.etfechaCita);
+        save = view.findViewById(R.id.btnsavecita);
+        cancel = view.findViewById(R.id.btncancelcita);
+        idvet = view.findViewById(R.id.tvidvet);
 
+        idvet.setVisibility(View.INVISIBLE);
         if (mascota == null){
         mascota.setVisibility(View.GONE);
         }
@@ -100,7 +108,7 @@ public class PedirCitaActivityFragment extends Fragment {
         adapter = new FirebaseListAdapter<Pets>(options) {
             @Override
             protected void populateView(View v, Pets model, int position) {
-                CircleImage photo = v.findViewById(R.id.cipet);
+                ImageView photo = v.findViewById(R.id.cipet);
                 TextView petName = v.findViewById(R.id.tvname);
 
                 petName.setText(model.getNameAddPet());
@@ -144,8 +152,6 @@ public class PedirCitaActivityFragment extends Fragment {
                 AddVetToCita(vetDetails);
             }
         });
-
-
         dateCita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,13 +159,21 @@ public class PedirCitaActivityFragment extends Fragment {
                 newFragment.show(getFragmentManager(), "DatePicker");
             }
         });
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SaveCita();
+            }
+        });
         return view;
     }
 
     private void AddVetToCita(Veterinarias vetDetails) {
         vetDetails.getPhone();
-        vet = view.findViewById(R.id.tvCitaVet);
+        /*vet = view.findViewById(R.id.tvCitaVet);
         telefono = view.findViewById(R.id.tvphone);
+        idvet = view.findViewById(R.id.tvidvet);*/
+        idvet.setText(vetDetails.getId());
         vet.setText(vetDetails.getName());
         telefono.setText(vetDetails.getPhone());
         listvets.setVisibility(View.GONE);
@@ -193,4 +207,17 @@ public class PedirCitaActivityFragment extends Fragment {
         }
     }
 
+    private void SaveCita(){
+        mRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://vetapp-98f0d.firebaseio.com/");
+        String vetID = idvet.getText().toString();
+        String pet = mascota.getText().toString();
+        String vetname = vet.getText().toString();
+        String fecha = dateCita.getText().toString();
+        Cita cita = new Cita(vetID,pet,vetname,fecha);
+        String child = mRef.push().getKey();
+        mDatabase = mRef.child("Citas"+id).child(pet+child).setValue(cita);
+        Toast.makeText(getContext(), "Se ha guardado la cita", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(view.getContext(), CitasActivity.class);
+        startActivityForResult(intent, 0);
+    }
 }

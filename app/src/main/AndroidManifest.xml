@@ -171,7 +171,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.rachel.vetApp.CitasActivity" />
         </activity>
+<<<<<<< HEAD
         <activity android:name=".DetallesAdopcion"></activity>
+=======
+        <activity
+            android:name=".ListVacunasCirugiasActivity"
+            android:label="@string/title_activity_list_vacunas_cirugias"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+>>>>>>> 3910a96d521d6fd037be45303ffd3b322a904333
     </application>
 
 </manifest>
